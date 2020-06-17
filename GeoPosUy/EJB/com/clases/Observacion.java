@@ -2,17 +2,15 @@ package com.clases;
 
 import java.util.Date;
 
-import com.clases.relaciones.RelUbicacion;
-
 public class Observacion {
 
 
 	long id_observacion; 
-	String descripcion; //max 100 not null
+	long id_usuario; 
 	String geolocalizacion; //max 150 not null
 	Date fecha_hora; //not null
-	private RelUbicacion ubicacion; //not null
-	private Usuario usuario; //not null
+	String descripcion; //not null
+	long id_fenomeno; //not null
 	
 	public long getId_observacion() {
 		return id_observacion;
@@ -20,11 +18,24 @@ public class Observacion {
 	public void setId_observacion(long id_observacion) {
 		this.id_observacion = id_observacion;
 	}
+
+	public long getId_usuario() {
+		return id_usuario;
+	}
+	public void setId_usuario(long id_usuario) {
+		this.id_usuario = id_usuario;
+	}
 	public String getDescripcion() {
 		return descripcion;
 	}
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
+	}
+	public long getId_fenomeno() {
+		return id_fenomeno;
+	}
+	public void setId_fenomeno(long id_fenomeno) {
+		this.id_fenomeno = id_fenomeno;
 	}
 	public String getGeolocalizacion() {
 		return geolocalizacion;
@@ -38,28 +49,16 @@ public class Observacion {
 	public void setFecha_hora(Date fecha_hora) {
 		this.fecha_hora = fecha_hora;
 	}
-	public RelUbicacion getUbicacion() {
-		return ubicacion;
-	}
-	public void setUbicacion(RelUbicacion ubicacion) {
-		this.ubicacion = ubicacion;
-	}
-	public Usuario getUsuario() {
-		return usuario;
-	}
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
 
 	
-	public Observacion(long id_observacion, String descripcion, String geolocalizacion, Date fecha_hora,
-			RelUbicacion ubicacion, Usuario usuario) {
+	public Observacion(long id_observacion, Long id_usuario, String descripcion, String geolocalizacion,
+			Date fechaHora, Long id_fenomeno) {
 		super();
 		this.id_observacion = id_observacion;
-		this.descripcion = descripcion;
+		this.id_usuario = id_usuario;
 		this.geolocalizacion = geolocalizacion;
-		this.fecha_hora = fecha_hora;
-		this.ubicacion = ubicacion;
-		this.usuario = usuario;
+		this.descripcion = descripcion;
+		this.fecha_hora = fechaHora;
+		this.id_fenomeno = id_fenomeno;
 	}
 }
