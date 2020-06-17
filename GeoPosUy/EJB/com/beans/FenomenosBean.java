@@ -1,14 +1,11 @@
 	package com.beans;
 
 import javax.ejb.EJB;
-import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
-import javax.ejb.Stateless;
 import javax.swing.DefaultListModel;
 
 import com.clases.Fenomeno;
 import com.dao.FenomenoDao;
-import com.dao.FenomenoDaoImpl;
 import com.exceptions.NoSeRealizoOperacionException;
 import com.exceptions.ProblemasNivelSQLException;
 

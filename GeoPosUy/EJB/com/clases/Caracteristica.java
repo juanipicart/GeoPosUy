@@ -6,7 +6,6 @@ public class Caracteristica {
 	String etiqueta; //max 20 not null
 	String nombre; //max 20 not null
 	String tipo; //max 20 not null
-	String descripcion; //max 50
 	
 	
 	public long getId_caracteristica() {
@@ -33,14 +32,6 @@ public class Caracteristica {
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
-	public String getDescripcion() {
-		return descripcion;
-	}
-	
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-	
 	
 	public Caracteristica(long id_caracteristica, String etiqueta, String nombre, String tipo, String descripcion) {
 		super();
@@ -48,7 +39,6 @@ public class Caracteristica {
 		this.etiqueta = etiqueta;
 		this.nombre = nombre;
 		this.tipo = tipo;
-		this.descripcion = descripcion;
 	}
 	
 	public Caracteristica(long id_caracteristica, String etiqueta, String nombre, String tipo) {
@@ -64,7 +54,6 @@ public class Caracteristica {
 		this.etiqueta = etiqueta;
 		this.nombre = nombre;
 		this.tipo = tipo;
-		this.descripcion = descripcion;
 	}
 	
 	public Caracteristica(String etiqueta, String nombre, String tipo) {
@@ -72,6 +61,5 @@ public class Caracteristica {
 		this.etiqueta = etiqueta;
 		this.nombre = nombre;
 		this.tipo = tipo;
-		this.descripcion = descripcion;
 	}
 }

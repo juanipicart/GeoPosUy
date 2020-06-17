@@ -326,4 +326,23 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		
 		return cedulaValida;
 	}
+	
+	@Override	
+	public Usuario buscarUsuarioPorId(long IdUser) throws ProblemasNivelSQLException {	
+		final String selectUsuarioPorId = "SELECT * FROM USUARIOS WHERE ID_USER = ?";	
+		bd.setPrepStmt(selectUsuarioPorId);	
+		Usuario usuario = null;	
+		try {	
+			bd.getPrepStmt().setLong(1, IdUser);	
+			bd.execQry();	
+				
+			ResultSet resultado = bd.getResultSet();	
+			while (resultado.next()) {					
+				usuario = getUsuarioDesdeResultado(resultado);	
+			}	
+			return usuario;	
+		} catch (SQLException e) {	
+			throw new ProblemasNivelSQLException("realizar búsqueda por ID");	
+		}	
+	}
 }
