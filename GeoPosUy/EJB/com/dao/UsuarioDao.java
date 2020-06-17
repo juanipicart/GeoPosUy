@@ -24,4 +24,5 @@ public interface UsuarioDao {
 	public Usuario buscarUsuarioPorUsername(String username) throws ProblemasNivelSQLException, NoSeRealizoOperacionException;
 	public Usuario buscarUsuarioPorDocumento(long codTipoDoc, String documento) throws ProblemasNivelSQLException, NoSeRealizoOperacionException;
 	public boolean validarCedula(String cedula);
+	public Usuario buscarUsuarioPorId(long IdUser) throws ProblemasNivelSQLException;
 }

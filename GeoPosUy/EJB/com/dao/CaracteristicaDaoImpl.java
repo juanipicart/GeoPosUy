@@ -6,7 +6,6 @@ import java.util.LinkedList;
 
 import com.bd.DBConector;
 import com.clases.Caracteristica;
-import com.clases.Fenomeno;
 import com.exceptions.NoSeRealizoOperacionException;
 import com.exceptions.ProblemasNivelSQLException;
 
@@ -29,9 +28,7 @@ public class CaracteristicaDaoImpl implements CaracteristicaDao {
 			bd.getPrepStmt().setString(1, caract.getNombre());
 			bd.getPrepStmt().setString(1, caract.getEtiqueta());
 			bd.getPrepStmt().setString(1, caract.getTipo());
-			if(caract.getDescripcion() != "") {
-				bd.getPrepStmt().setString(1, caract.getDescripcion());
-			}
+			
 
 		} catch (SQLException e) {
 			throw new ProblemasNivelSQLException(e.getMessage());
@@ -87,10 +84,7 @@ public class CaracteristicaDaoImpl implements CaracteristicaDao {
 			bd.getPrepStmt().setString(1, caract.getNombre());
 			bd.getPrepStmt().setString(2, caract.getEtiqueta());
 			bd.getPrepStmt().setString(3, caract.getTipo());
-			if(caract.getDescripcion() != "") {
-				bd.getPrepStmt().setString(4, caract.getDescripcion());
-			}
-
+			
 		
 		} catch (SQLException e) {
 			throw new ProblemasNivelSQLException(e.getMessage());
