@@ -1,33 +1,21 @@
 package com.java.swing;
 
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.swing.BorderFactory;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -35,11 +23,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
-
-import com.beans.UbicacionesBeanRemote;
-import com.beans.UsuarioBean;
-import com.beans.UsuarioBeanRemote;
 import com.clases.Usuario;
 import com.clases.codigueras.CodDepartamento;
 import com.clases.codigueras.CodLocalidad;
@@ -47,7 +30,6 @@ import com.clases.codigueras.Rol;
 import com.clases.codigueras.CodZona;
 import com.clases.codigueras.Estado;
 import com.clases.codigueras.TipoDocumento;
-import com.clases.relaciones.RelUbicacion;
 import com.interfaz.ClienteGeoPosUy;
 
 public class FrameAltaUsuario implements ActionListener {
@@ -86,9 +68,7 @@ public class FrameAltaUsuario implements ActionListener {
 	private JComboBox<String> comboZona;
 	private JComboBox<String> comboRol;	
 	private JComboBox<String> comboEstado;	
-	
-	private String depto;
-	
+		
 	/** Atributos de Botones */
 	private JButton buttonRegistrar;
 	private JButton buttonCancelar;
