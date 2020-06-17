@@ -27,6 +27,7 @@ public class FramePrincipal {
 	private static JButton botonRegistrarUsuario;
 	private static JButton botonModificarUsuario;
 	private static JButton botonEliminarUsuario;
+	private static JButton botonListarObservaciones;	
 
 		
 	public FramePrincipal(Usuario user) {
@@ -214,6 +215,10 @@ public class FramePrincipal {
 		botonModificarUsuario.setFont (new Font("Dialog",Font.BOLD,12));
 		botonModificarUsuario.setSize(50, 10);
 		
+		botonListarObservaciones = new JButton("Consultar observaciones");	
+		botonListarObservaciones.setFont(new Font("Dialog",Font.BOLD,12));	
+		botonListarObservaciones.setSize(50, 10);
+		
 	    JPanel panelCentroSistema = new JPanel (new GridBagLayout());
 	    GridBagConstraints constraints = new GridBagConstraints();
 		constraints.anchor = GridBagConstraints.CENTER;
@@ -247,6 +252,12 @@ public class FramePrincipal {
 	    constraints.gridwidth = 1;
 	    
 	    panelCentroSistema.add (botonEliminarUsuario); 
+	    
+	    constraints.gridx = 0;	
+	    constraints.gridy = 5;	
+	    constraints.gridwidth = 1;	
+	    	
+	    panelCentroSistema.add (botonListarObservaciones); 
 	    } else {
 	    	constraints.gridx = 0;
 		    constraints.gridy = 0;
@@ -306,6 +317,16 @@ public class FramePrincipal {
             	
             	
             }
+        });
+	    
+	    botonListarObservaciones.addActionListener(new ActionListener() {	
+            @Override	
+            public void actionPerformed(ActionEvent event) {	
+                	
+            	new FrameConsultaObservaciones(frame);          		
+            		
+            		
+            }	
         });
 	 
 	}

@@ -2,11 +2,13 @@ package com.beans;
 
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.LinkedList;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
 import javax.ejb.Stateless;
+import javax.swing.DefaultListModel;
 
 import com.clases.Fenomeno;
 import com.clases.Observacion;
@@ -29,7 +31,7 @@ public class ObservacionesBean implements ObservacionesBeanRemote {
         // TODO Auto-generated constructor stub
     }
     
-    @Override
+    /*@Override
 	public int registrarObservacion(long id_observacion, String descripcion, String geolocalizacion, Date fecha_hora, RelUbicacion ubicacion,
 			Usuario usuario) {
 		
@@ -68,7 +70,7 @@ public class ObservacionesBean implements ObservacionesBeanRemote {
 		}
 		
 		return numeroError;
-	}
+	}*/
     
     @Override
     public boolean existeObservacionPorFenomeno(String fenom) throws Exception {
@@ -76,5 +78,21 @@ public class ObservacionesBean implements ObservacionesBeanRemote {
     	
     
     }
+ 
+	@Override	
+	public DefaultListModel<Observacion> buscarObservacionesPorFenomenos(LinkedList<Long> codigo)	
+			throws ProblemasNivelSQLException, NoSeRealizoOperacionException, SQLException, Exception {	
+		DefaultListModel<Observacion> observaciones = new DefaultListModel<>();	
+			
+		try {	
+			observaciones = servicio.buscarObservacionesPorFenomenos(codigo);	
+		} catch (ProblemasNivelSQLException | NoSeRealizoOperacionException e) {	
+			// TODO Auto-generated catch block	
+			e.printStackTrace();	
+		}	
+			
+		return observaciones;	
+			
+	}
 
 }

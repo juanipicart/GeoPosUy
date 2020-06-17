@@ -1,11 +1,13 @@
 package com.clases;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.clases.relaciones.RelUbicacion;
 
-public class Observacion {
+public class Observacion implements Serializable{
 
+	private static final long serialVersionUID = 1L;
 
 	long id_observacion; 
 	String descripcion; //max 100 not null
@@ -13,6 +15,7 @@ public class Observacion {
 	Date fecha_hora; //not null
 	private RelUbicacion ubicacion; //not null
 	private Usuario usuario; //not null
+	private long idusuario;
 	
 	public long getId_observacion() {
 		return id_observacion;
@@ -62,4 +65,16 @@ public class Observacion {
 		this.ubicacion = ubicacion;
 		this.usuario = usuario;
 	}
+	public Observacion(Long id_observacion2, Long id_usuario, String descripcion2, String geolocalizacion2,
+			Date fechaHora, Long id_fenomeno) {
+		super();
+		this.id_observacion = id_observacion2;
+		this.descripcion = descripcion2;
+		this.geolocalizacion = geolocalizacion2;
+		this.fecha_hora = fechaHora;
+		this.ubicacion = ubicacion;
+		this.idusuario = id_usuario;
+	}
+	
+	public String toString() { return this.descripcion + " - " + Long.toString(this.id_observacion) + " - " + this.fecha_hora;}
 }

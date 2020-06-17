@@ -4,6 +4,7 @@ import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
 import javax.ejb.Stateless;
+import javax.swing.DefaultListModel;
 
 import com.clases.Fenomeno;
 import com.dao.FenomenoDao;
@@ -87,6 +88,30 @@ public class FenomenosBean implements FenomenosBeanRemote {
 			e.printStackTrace();
 		}
 		return logrado;
+		
+	}	
+	@Override	
+	public DefaultListModel<Fenomeno> consultarFenomenos() {	
+			
+    	DefaultListModel<Fenomeno> fenomenos = null;	
+		try {	
+			fenomenos = servicio.consultarFenomenos();	
+		} catch (ProblemasNivelSQLException e) {	
+			// TODO Auto-generated catch block	
+			e.printStackTrace();	
+		} catch (NoSeRealizoOperacionException e) {	
+			// TODO Auto-generated catch block	
+			e.printStackTrace();	
+		} catch (Exception e) {	
+			// TODO Auto-generated catch block	
+			e.printStackTrace();	
+		}	
+    		
+    	if (fenomenos != null) {	
+    		return fenomenos;	
+    	} else {	
+    		return null;	
+    	}  
 	}
 
 

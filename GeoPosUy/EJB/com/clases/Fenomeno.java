@@ -68,4 +68,6 @@ public class Fenomeno implements Serializable  {
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 	}
+	
+	public String toString() { return this.descripcion + " - " + Long.toString(this.id_fenomeno);}
 }

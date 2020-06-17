@@ -6,6 +6,7 @@ import java.util.LinkedList;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.swing.DefaultListModel;
 
 import com.bd.DBConector;
 import com.clases.Fenomeno;
@@ -105,23 +106,25 @@ public class FenomenoDaoImpl implements FenomenoDao {
 		return logrado;	
 	}
 
-	@Override
-	public LinkedList<Fenomeno> selectTodosFenomenos() throws Exception {
-		LinkedList<Fenomeno> fenomenos = new LinkedList<>();
-		bd.setPrepStmt(selectTodosFenomenos);
-		
-		try {
-						
-			ResultSet resultado = bd.getPrepStmt().executeQuery();
+	@Override	
+	public DefaultListModel<Fenomeno> consultarFenomenos() throws Exception {	
+		DefaultListModel<Fenomeno> fenomenos = new DefaultListModel<>();	
+		int contador = 0;	
+		bd.setPrepStmt(selectTodosFenomenos);	
 			
-			while (resultado.next()) {
-				Fenomeno fenomeno = getFenomenoDesdeResultado(resultado);
-				fenomenos.add(fenomeno);			
-			} return fenomenos;
-		} catch (ProblemasNivelSQLException e) {
-			throw new ProblemasNivelSQLException("Realizar búsqueda");
-		}
-
+		try {	
+							
+			ResultSet resultado = bd.getPrepStmt().executeQuery();	
+				
+			while (resultado.next()) {	
+				Fenomeno fenomeno = getFenomenoDesdeResultado(resultado);	
+				fenomenos.add(contador, fenomeno);		
+				contador++;	
+			} 	
+			return fenomenos;	
+		} catch (ProblemasNivelSQLException e) {	
+			throw new ProblemasNivelSQLException("Realizar búsqueda");	
+		}	
 	}
 
 	@Override
