@@ -1,16 +1,21 @@
 package com.clases;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Observacion {
+import com.clases.relaciones.RelUbicacion;
 
+public class Observacion implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	long id_observacion; 
-	long id_usuario; 
+	String descripcion; //max 100 not null
 	String geolocalizacion; //max 150 not null
 	Date fecha_hora; //not null
-	String descripcion; //not null
-	long id_fenomeno; //not null
+	private RelUbicacion ubicacion; //not null
+	private Usuario usuario; //not null
+	private long idusuario;
 	
 	public long getId_observacion() {
 		return id_observacion;
@@ -18,24 +23,11 @@ public class Observacion {
 	public void setId_observacion(long id_observacion) {
 		this.id_observacion = id_observacion;
 	}
-
-	public long getId_usuario() {
-		return id_usuario;
-	}
-	public void setId_usuario(long id_usuario) {
-		this.id_usuario = id_usuario;
-	}
 	public String getDescripcion() {
 		return descripcion;
 	}
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
-	}
-	public long getId_fenomeno() {
-		return id_fenomeno;
-	}
-	public void setId_fenomeno(long id_fenomeno) {
-		this.id_fenomeno = id_fenomeno;
 	}
 	public String getGeolocalizacion() {
 		return geolocalizacion;
@@ -49,16 +41,40 @@ public class Observacion {
 	public void setFecha_hora(Date fecha_hora) {
 		this.fecha_hora = fecha_hora;
 	}
+	public RelUbicacion getUbicacion() {
+		return ubicacion;
+	}
+	public void setUbicacion(RelUbicacion ubicacion) {
+		this.ubicacion = ubicacion;
+	}
+	public Usuario getUsuario() {
+		return usuario;
+	}
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
 
 	
-	public Observacion(long id_observacion, Long id_usuario, String descripcion, String geolocalizacion,
-			Date fechaHora, Long id_fenomeno) {
+	public Observacion(long id_observacion, String descripcion, String geolocalizacion, Date fecha_hora,
+			RelUbicacion ubicacion, Usuario usuario) {
 		super();
 		this.id_observacion = id_observacion;
-		this.id_usuario = id_usuario;
-		this.geolocalizacion = geolocalizacion;
 		this.descripcion = descripcion;
-		this.fecha_hora = fechaHora;
-		this.id_fenomeno = id_fenomeno;
+		this.geolocalizacion = geolocalizacion;
+		this.fecha_hora = fecha_hora;
+		this.ubicacion = ubicacion;
+		this.usuario = usuario;
 	}
+	public Observacion(Long id_observacion2, Long id_usuario, String descripcion2, String geolocalizacion2,
+			Date fechaHora, Long id_fenomeno) {
+		super();
+		this.id_observacion = id_observacion2;
+		this.descripcion = descripcion2;
+		this.geolocalizacion = geolocalizacion2;
+		this.fecha_hora = fechaHora;
+		this.ubicacion = ubicacion;
+		this.idusuario = id_usuario;
+	}
+	
+	public String toString() { return this.descripcion + " - " + Long.toString(this.id_observacion) + " - " + this.fecha_hora;}
 }
