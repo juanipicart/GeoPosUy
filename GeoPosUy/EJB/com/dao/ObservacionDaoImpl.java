@@ -3,7 +3,6 @@ package com.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,7 +10,6 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-import javax.swing.DefaultListModel;
 
 import com.bd.DBConector;
 import com.clases.Fenomeno;
@@ -306,26 +304,7 @@ public class ObservacionDaoImpl implements ObservacionDao{
 	}
 	}
 		
-		private static Observacion getObservacionDesdeResultado(ResultSet resultado) throws ProblemasNivelSQLException {	
-			
-			try {	
-				Long id_observacion = resultado.getLong("ID_OBSERVACION");	
-				Long id_usuario = resultado.getLong("ID_USUARIO");	
-				String descripcion = resultado.getString("DESCRIPCION");	
-				String geolocalizacion = resultado.getString("GEOLOCALIZACION");	
-				Date fechaHora = resultado.getDate("FECHA_HORA");	
-				Long id_fenomeno = resultado.getLong("ID_FENOMENO");	
-					
-					
-				Observacion obs = new Observacion(id_observacion,id_usuario, descripcion, geolocalizacion,fechaHora,id_fenomeno);	
-					
-				return obs; 	
-			} catch (SQLException e) {	
-				throw new ProblemasNivelSQLException("realizar operación");	
-					
-			}	
-			}
-		
+	
 		private Observacion getObservacionDesdeResulset(ResultSet res) throws SQLException {	
 			
 			Observacion obs = new Observacion( 	

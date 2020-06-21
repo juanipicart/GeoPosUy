@@ -13,23 +13,22 @@ public class CaracteristicaDaoImpl implements CaracteristicaDao {
 	
 	DBConector bd = DBConector.getinstance();
 	
-	private static final String selectFenomenos = "SELECT * FROM FENOMENOS";
-	private static final String selectFenomenoPorID = "SELECT * FROM FENOMENOS WHERE ID_FENOMENO=?";
+	private static final String crearCaracteristica = "Insert into CARACTERISTICAS Values(NULL,UPPER('?'),UPPER('?'))";
+	private static final String borrarCaracteristica = "Delete from CARACTERISTICAS where DESCRIPCION= UPPER('?')";
+	private static final String modificaCaracteristica = "Update CARACTERISTICAS set DESCRIPCION = UPPER('?'), UNIDAD_MEDIDA = UPPER('?') where id_caracteristica=?";
+	private static final String selectCaracteristicas = "SELECT * FROM caracteristicas";
+	private static final String selectCaracteristicaPorID = "SELECT * FROM caracteristicas WHERE ID_CARACTERISTICA=?";
 
 	@Override
 	public void registrarCaracteristica(Caracteristica caract) throws ProblemasNivelSQLException, NoSeRealizoOperacionException {
-		String INS_CARACT = "Insert into CARACTERISTICAS Values(NULL,UPPER('?'),UPPER('?'),UPPER('?'),UPPER('?'))"; 
 		int i;
 		// se prepara el insert
-		bd.setPrepStmt(INS_CARACT);
+		bd.setPrepStmt(crearCaracteristica);
 		
 		//El asignar una variable puede lanzar una excepcion de SQL
 		try {
-			bd.getPrepStmt().setString(1, caract.getNombre());
-			bd.getPrepStmt().setString(1, caract.getEtiqueta());
-			bd.getPrepStmt().setString(1, caract.getTipo());
-			
-
+			bd.getPrepStmt().setString(1, caract.getDescripcion());
+			bd.getPrepStmt().setString(2, caract.getUnid_medida());
 		} catch (SQLException e) {
 			throw new ProblemasNivelSQLException(e.getMessage());
 		}
@@ -47,15 +46,13 @@ public class CaracteristicaDaoImpl implements CaracteristicaDao {
 	
 	
 	@Override
-	public void eliminarCaracteristica(String nombre) throws ProblemasNivelSQLException, NoSeRealizoOperacionException {
-		String DEL_CARACT = "Delete from CARACTERISTICAS where nombre= ?";
+	public void eliminarCaracteristica(String descripcion) throws ProblemasNivelSQLException, NoSeRealizoOperacionException {
 		int i;
-		
-		bd.setPrepStmt(DEL_CARACT);
+		bd.setPrepStmt(borrarCaracteristica);
 		
 
 		try {
-			bd.getPrepStmt().setString(1, nombre);			
+			bd.getPrepStmt().setString(1, descripcion);			
 		} catch (SQLException e) {
 			throw new ProblemasNivelSQLException(e.getMessage());
 		}
@@ -74,17 +71,15 @@ public class CaracteristicaDaoImpl implements CaracteristicaDao {
 	
 	@Override
 	public void modificarCaracteristica(Caracteristica caract) throws ProblemasNivelSQLException, NoSeRealizoOperacionException {
-		String UPD_CARACT = "Update CARACTERISTICAS set nombre = UPPER('?'), etiqueta = UPPER('?'), tipo = UPPER('?'), descripcion = UPPER('?') where id_usuario=" + caract.getId_caracteristica() + "";
 		int i;
 		// se prepara el insert
-		bd.setPrepStmt(UPD_CARACT);
+		bd.setPrepStmt(modificaCaracteristica);
 		
 		//El asignar una variable puede lanzar una excepcion de SQL
 		try {
-			bd.getPrepStmt().setString(1, caract.getNombre());
-			bd.getPrepStmt().setString(2, caract.getEtiqueta());
-			bd.getPrepStmt().setString(3, caract.getTipo());
-			
+			bd.getPrepStmt().setString(1, caract.getDescripcion());
+			bd.getPrepStmt().setString(2, caract.getUnid_medida());
+			bd.getPrepStmt().setLong(2, caract.getId_caracteristica());
 		
 		} catch (SQLException e) {
 			throw new ProblemasNivelSQLException(e.getMessage());
@@ -104,7 +99,7 @@ public class CaracteristicaDaoImpl implements CaracteristicaDao {
 	@Override
 	public LinkedList<Caracteristica> selectAll() throws ProblemasNivelSQLException, NoSeRealizoOperacionException {
 		LinkedList<Caracteristica> caracteristicas = new LinkedList<>();
-		bd.setPrepStmt(selectFenomenos);
+		bd.setPrepStmt(selectCaracteristicas);
 		
 		try {
 			
@@ -122,10 +117,13 @@ public class CaracteristicaDaoImpl implements CaracteristicaDao {
 	@Override
 	public Caracteristica selectCaractByID(long id) throws ProblemasNivelSQLException, NoSeRealizoOperacionException, SQLException {
 		Caracteristica caracteristica = null;
-		bd.setPrepStmt(selectFenomenoPorID);
+		bd.setPrepStmt(selectCaracteristicaPorID);
+		
 		try {
-			bd.getPrepStmt();
+			bd.getPrepStmt().setLong(1, id);
+			bd.execQry();
 			ResultSet resultado = bd.getResultSet();
+
 			while (resultado.next()) {
 				caracteristica = getCaracteristicaDesdeResultado(resultado);
 				} return caracteristica;
@@ -139,19 +137,16 @@ public class CaracteristicaDaoImpl implements CaracteristicaDao {
 		
 		try {
 			Long id_caract = resultado.getLong("ID_CARACTERISICA");
-			String etiqueta = resultado.getString("ETIQUETA");
-			String nombre = resultado.getString("NOMBRE");
-			String tipo = resultado.getString("TIPO");
 			String descripcion = resultado.getString("DESCRIPCION");
+			String unidad_medida = resultado.getString("UNIDAD_MEDIDA");
 			
-			Caracteristica caracteristica = new Caracteristica(id_caract, etiqueta, nombre, tipo, descripcion);
+			Caracteristica caracteristica = new Caracteristica(id_caract, descripcion, unidad_medida);
 			
 			return caracteristica;
 			
 		} catch (SQLException e) {
 			throw new ProblemasNivelSQLException("realizar operación");		}
 	
-		
 	}
 		
 	

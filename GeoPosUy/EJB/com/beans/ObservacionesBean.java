@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
-import javax.swing.DefaultListModel;
 
 import com.clases.Observacion;
 import com.dao.ObservacionDao;

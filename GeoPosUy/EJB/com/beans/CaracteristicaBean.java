@@ -6,6 +6,7 @@ import javax.ejb.Stateless;
 import com.clases.Caracteristica;
 import com.dao.CaracteristicaDao;
 import com.exceptions.NoSeRealizoOperacionException;
+import com.exceptions.NoValidaParamException;
 import com.exceptions.ProblemasNivelSQLException;
 
 @Stateless
@@ -18,25 +19,17 @@ public class CaracteristicaBean implements CaracteristicaBeanRemote {
     }
 
     @Override	
-	public int registrarCaracteristica(String etiqueta, String nombre, String tipo) {	
+	public int registrarCaracteristica(String descripcion, String unidad_medida) throws NoValidaParamException {	
 			
-    	Caracteristica caract = new Caracteristica(etiqueta, nombre, tipo);	
-		int numeroError = 0;	
+    	Caracteristica caract = new Caracteristica();	
 			
-		if(etiqueta == null || etiqueta == "" || etiqueta.length() > 20) {				
-			//Captar del otro lado este numero y mostrar el mensaje error correspondiente, lo mismo con las otras verificaciones	
-			numeroError = 1;	
-			return numeroError;	
+		if(descripcion.isEmpty() || descripcion.length() > 30) {				
+			throw new NoValidaParamException("Descripcion") ;
 		}	
-		if(nombre == null || nombre == "" || nombre.length() > 20) {				
-			numeroError = 2;	
-			return numeroError;	
+		if(unidad_medida.length() > 20) {				
+			throw new NoValidaParamException("unidad medida") ;
 		}	
-		if(tipo == null || tipo == "" || tipo.length() > 30) {				
-			numeroError = 3;	
-			return numeroError;	
-		}	
-			
+		
 		try {	
 			dao.registrarCaracteristica(caract);	
 		} catch (ProblemasNivelSQLException e) {	
@@ -44,6 +37,6 @@ public class CaracteristicaBean implements CaracteristicaBeanRemote {
 		} catch (NoSeRealizoOperacionException e) {	
 			e.printStackTrace();	
 		}	
-		return numeroError;	
+		return 0;	
 	}
 }
