@@ -76,7 +76,7 @@ import com.interfaz.ClienteGeoPosUy;
 		
 		private void initializeFrame(JFrame framePadre) {
 
-			JFrame frame = new JFrame("Buscar usuario a dar de baja");
+			JFrame frame = new JFrame("Consulta de observación/es mediante fenómeno/s");
 			frame.setSize(600, 400);
 			frame.setResizable(false);
 			frame.setLocationRelativeTo(framePadre);
@@ -94,7 +94,7 @@ import com.interfaz.ClienteGeoPosUy;
 			
 			try {
 				
-				constraints.gridx = 1;
+				constraints.gridx = 0;
 				constraints.gridy = 1;
 				this.comboFenomenos = cargarComboFenomenos();
 				consultarObservacionesPanel.add(this.comboFenomenos, constraints);
@@ -103,7 +103,7 @@ import com.interfaz.ClienteGeoPosUy;
 				e.printStackTrace();
 			}
 
-			constraints.gridx = 2;
+			constraints.gridx = 0;
 			constraints.gridy = 2;
 			constraints.gridwidth = 5;
 			constraints.anchor = GridBagConstraints.CENTER;
@@ -170,29 +170,38 @@ import com.interfaz.ClienteGeoPosUy;
 		private void accionConsultar() {
 			
 			ArrayList<Fenomeno> CapturarLista = new ArrayList();
-			CapturarLista = (ArrayList<Fenomeno>) lista.getSelectedValuesList();
-			DefaultListModel<Observacion> observacionesLista = new DefaultListModel<>();
 			
-			LinkedList<Long> listaIdsFenomenos = new LinkedList<>();
+			if(lista.getSelectedValuesList().size() > 0 && lista.getSelectedValuesList() != null) {
+				
+				CapturarLista = (ArrayList<Fenomeno>) lista.getSelectedValuesList();
+				List<Observacion> observacionesLista = new ArrayList<>();
+				
+				LinkedList<Long> listaIdsFenomenos = new LinkedList<>();
 
 
-			for(Fenomeno fenomeno : CapturarLista){
-				listaIdsFenomenos.add(fenomeno.getId_fenomeno());
-			}
-			
-			try {
-				observacionesLista = ClienteGeoPosUy.buscarObservacionesPorFenomenos(listaIdsFenomenos);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			observaciones.setModel(observacionesLista);
-			observaciones.setVisibleRowCount(10);
-			observaciones.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-			
-		    new FrameListadoObservaciones(this.frame, observaciones);
-			
+				for(Fenomeno fenomeno : CapturarLista){
+					listaIdsFenomenos.add(fenomeno.getId_fenomeno());
+				}
+				
+				
+				
+				try {
+					observacionesLista = ClienteGeoPosUy.buscarObservacionesPorFenomenos(listaIdsFenomenos);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}	
+				
+				
+			    new FrameListadoObservaciones(this.frame, observacionesLista);
+				
+			    
+			}else {
+				
+				JOptionPane.showMessageDialog(frame, "Verifique haber seleccionado al menos un fenómeno.", "Ha ocurrido un error!",
+						JOptionPane.WARNING_MESSAGE);
+				
+			}	
 		}
 	}
 

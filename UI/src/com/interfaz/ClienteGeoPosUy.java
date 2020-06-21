@@ -162,6 +162,13 @@ public class ClienteGeoPosUy {
 
 	}
 	
+	public static List<Fenomeno> ObtenerTodosLosFenomenos() throws Exception {
+
+	FenomenosBeanRemote fenomenoBeanRemote = EJBLocator.getInstance().lookup(FenomenosBeanRemote.class);
+	return fenomenoBeanRemote.obtenerTodosLosFenomenos();
+
+	}
+	
 	public static boolean modificarFenomeno (String codigo, String nombre, String desc, String contacto) throws Exception {
 		
 	FenomenosBeanRemote	fenomenoBeanRemote = EJBLocator.getInstance().lookup(FenomenosBeanRemote.class);
@@ -185,7 +192,7 @@ public class ClienteGeoPosUy {
 
 		}
 
-	public static DefaultListModel<Observacion> buscarObservacionesPorFenomenos(LinkedList<Long> codigo) throws Exception {	
+	public static List<Observacion> buscarObservacionesPorFenomenos(LinkedList<Long> codigo) throws Exception {	
 		ObservacionesBeanRemote observacionesBeanRemote = EJBLocator.getInstance().lookup(ObservacionesBeanRemote.class);	
 		return observacionesBeanRemote.buscarObservacionesPorFenomenos(codigo);	
 			}
