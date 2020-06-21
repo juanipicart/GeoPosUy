@@ -1,0 +1,16 @@
+Generado con:
+	Java 1.8 (0_251)
+	Wildfly 10
+	Eclipse 2019-03
+	
+Configuraciones Servidor Wildfly:
+	En "Open Launch Configurations" - VM Options. para que no de problemas con el NLS Oracle colocar: -Duser.language=en -Duser.country=US
+	Puerto Usado : 8081 (offset 1)
+	
+	Oracle datasource: nombre jndi: java:/OracleDSProyecto
+
+Librerias:
+	Importar de \lib los jars:
+		  jboss-cli-client
+		  jboss-client
+		  ojdbc7
