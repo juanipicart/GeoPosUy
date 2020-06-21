@@ -19,10 +19,12 @@ public class Observacion implements Serializable{
 	private int revisado;     // indoca si esta o no revisado	
 	private String obsValidador;  // Notas del validador	
 	private int activo; // Registro activo o borrado 
+	private long id_fenomeno;
 	
+
 	public Observacion(long id_observacion, String descripcion, String geolocalizacion, Date fecha_hora,	
 			long id_usuario, int nivel_criticidad, long id_localidad, String id_departamento, long id_zona,	
-			int revisado, String obsValidador, int activo) {	
+			int revisado, String obsValidador, int activo, long id_fenomeno) {	
 		super();	
 		this.id_observacion = id_observacion;	
 		this.descripcion = descripcion;	
@@ -36,6 +38,7 @@ public class Observacion implements Serializable{
 		this.revisado = revisado;	
 		this.obsValidador = obsValidador;	
 		this.activo = activo;	
+		this.id_fenomeno = id_fenomeno;
 	}	
 	public Observacion() {	
 		super();	
@@ -128,7 +131,12 @@ public class Observacion implements Serializable{
 	public void setId_zona(long id_zona) {	
 		this.id_zona = id_zona;	
 	}
-	
+	public long getId_fenomeno() {
+		return id_fenomeno;
+	}
+	public void setId_fenomeno(long id_fenomeno) {
+		this.id_fenomeno = id_fenomeno;
+	}
 	
 	public Observacion(Long id_observacion2, Long id_usuario, String descripcion2, String geolocalizacion2,
 			Date fechaHora, Long id_fenomeno) {

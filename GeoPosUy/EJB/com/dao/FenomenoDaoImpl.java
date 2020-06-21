@@ -2,7 +2,9 @@ package com.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -120,6 +122,26 @@ public class FenomenoDaoImpl implements FenomenoDao {
 				Fenomeno fenomeno = getFenomenoDesdeResultado(resultado);	
 				fenomenos.add(contador, fenomeno);		
 				contador++;	
+			} 	
+			return fenomenos;	
+		} catch (ProblemasNivelSQLException e) {	
+			throw new ProblemasNivelSQLException("Realizar búsqueda");	
+		}	
+	}
+	
+	@Override	
+	public List<Fenomeno> obtenerTodosLosFenomenos() throws Exception {	
+		List<Fenomeno> fenomenos = new ArrayList<Fenomeno>();	
+		int contador = 0;	
+		bd.setPrepStmt(selectTodosFenomenos);	
+			
+		try {	
+							
+			ResultSet resultado = bd.getPrepStmt().executeQuery();	
+				
+			while (resultado.next()) {	
+				Fenomeno fenomeno = getFenomenoDesdeResultado(resultado);	
+				fenomenos.add(fenomeno);		
 			} 	
 			return fenomenos;	
 		} catch (ProblemasNivelSQLException e) {	

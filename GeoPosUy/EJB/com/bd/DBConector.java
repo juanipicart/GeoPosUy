@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 public class DBConector {
 
 	
-	private final String dataSrc = "java:/OracleDS";
+	private final String dataSrc = "java:/OracleDSProyecto";
 	//private final String usr = "proyecto";
 	//private final String pwd = "proyecto";
 	//private final String srv = "127.0.0.1";

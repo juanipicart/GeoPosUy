@@ -69,5 +69,8 @@ public class Fenomeno implements Serializable  {
 		this.descripcion = descripcion;
 	}
 	
+	public Fenomeno() {
+		// TODO Auto-generated constructor stub
+	}
 	public String toString() { return this.descripcion + " - " + Long.toString(this.id_fenomeno);}
 }

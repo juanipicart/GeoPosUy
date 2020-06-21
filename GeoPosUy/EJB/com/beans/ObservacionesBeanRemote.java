@@ -26,6 +26,6 @@ public interface ObservacionesBeanRemote {
 
 	public boolean existeObservacionPorFenomeno(String fenom) throws ProblemasNivelSQLException, NoSeRealizoOperacionException, SQLException, Exception;
 	
-	public DefaultListModel<Observacion> buscarObservacionesPorFenomenos(LinkedList<Long> codigo) throws ProblemasNivelSQLException, NoSeRealizoOperacionException, SQLException, Exception;
+	public List<Observacion> buscarObservacionesPorFenomenos(LinkedList<Long> codigo) throws ProblemasNivelSQLException, NoSeRealizoOperacionException, SQLException, Exception;
 
 }

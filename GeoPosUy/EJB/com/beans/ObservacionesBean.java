@@ -150,9 +150,9 @@ public class ObservacionesBean implements ObservacionesBeanRemote {
     }
  
 	@Override	
-	public DefaultListModel<Observacion> buscarObservacionesPorFenomenos(LinkedList<Long> codigo)	
+	public List<Observacion> buscarObservacionesPorFenomenos(LinkedList<Long> codigo)	
 			throws ProblemasNivelSQLException, NoSeRealizoOperacionException, SQLException, Exception {	
-		DefaultListModel<Observacion> observaciones = new DefaultListModel<>();	
+		List<Observacion> observaciones = new ArrayList<>();	
 			
 		try {	
 			observaciones = servicio.buscarObservacionesPorFenomenos(codigo);	
