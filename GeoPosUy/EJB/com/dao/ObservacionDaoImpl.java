@@ -269,13 +269,13 @@ public class ObservacionDaoImpl implements ObservacionDao{
 		return lsObservacion;	
 	}
 	@Override	
-	public DefaultListModel<Observacion> buscarObservacionesPorFenomenos(LinkedList<Long> codigo) throws Exception {	
+	public List<Observacion> buscarObservacionesPorFenomenos(LinkedList<Long> codigo) throws Exception {	
 			
 		int contador = 0;	
 			
 		try {	
 				
-			DefaultListModel<Observacion> observaciones = new DefaultListModel<>();	
+			List<Observacion> observaciones = new ArrayList<>();	
 				
 			String ObsPorFenomeno = "Select * from OBSERVACIONES where ID_FENOMENO IN (";	
 			String ids = "";	
@@ -293,9 +293,8 @@ public class ObservacionDaoImpl implements ObservacionDao{
 				
 				
 			while (resultado.next()) {	
-				Observacion observacion = getObservacionDesdeResultado(resultado);	
-				observaciones.add(contador,observacion);	
-				contador++;	
+				Observacion observacion = getObservacionDesdeResulset(resultado);	
+				observaciones.add(observacion);	
 			} 	
 				
 			return observaciones;	
@@ -333,7 +332,7 @@ public class ObservacionDaoImpl implements ObservacionDao{
 					res.getLong("ID_OBSERVACION"), res.getString("DESCRIPCION"), res.getString("GEOLOCALIZACION"), 	
 					res.getDate("FECHA_HORA"), res.getLong("ID_USUARIO"),  res.getInt("NIVEL_CRITICIDAD"),	
 					res.getLong("ID_LOCALIDAD"), res.getString("ID_DEPARTAMENTO"), res.getLong("ID_ZONA"), 	
-					res.getInt("REVISADO"), res.getString("OBSERVACIONES_VALIDACION"), res.getInt("ACTIVO") );	
+					res.getInt("REVISADO"), res.getString("OBSERVACIONES_VALIDACION"), res.getInt("ACTIVO"), res.getLong("ID_FENOMENO") );	
 			return obs;	
 				
 		}

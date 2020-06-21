@@ -17,7 +17,7 @@ public interface ObservacionDao {
 	public void eliminarObservacion(long id_observacion) throws ProblemasNivelSQLException, NoSeRealizoOperacionException;
 	public void modificarObservacion(Observacion obs) throws ProblemasNivelSQLException, NoSeRealizoOperacionException;
 	public boolean buscarObservacionesPorFenomeno(String codigo) throws Exception;	
-	public DefaultListModel<Observacion> buscarObservacionesPorFenomenos(LinkedList<Long> codigo) throws Exception;
+	public List<Observacion> buscarObservacionesPorFenomenos(LinkedList<Long> codigo) throws Exception;
 	public List<Observacion> buscarPorUsuario(long idUsuario) throws ProblemasNivelSQLException;	
 	public Observacion buscarPorId(long idObservacion) throws ProblemasNivelSQLException;	
 	//public List<Observacion> buscarPorFenomeno(long idFenomoeno) throws ProblemasNivelSQLException; // TODO	

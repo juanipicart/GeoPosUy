@@ -1,5 +1,7 @@
 	package com.beans;
 
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
 import javax.swing.DefaultListModel;
@@ -109,6 +111,32 @@ public class FenomenosBean implements FenomenosBeanRemote {
     	} else {	
     		return null;	
     	}  
+	}
+
+	@Override
+	public List<Fenomeno> obtenerTodosLosFenomenos() {
+		
+		
+    	List<Fenomeno> fenomenos = null;	
+		try {	
+			fenomenos = servicio.obtenerTodosLosFenomenos();	
+		} catch (ProblemasNivelSQLException e) {	
+			// TODO Auto-generated catch block	
+			e.printStackTrace();	
+		} catch (NoSeRealizoOperacionException e) {	
+			// TODO Auto-generated catch block	
+			e.printStackTrace();	
+		} catch (Exception e) {	
+			// TODO Auto-generated catch block	
+			e.printStackTrace();	
+		}	
+    		
+    	if (fenomenos != null) {	
+    		return fenomenos;	
+    	} else {	
+    		return null;	
+    	}  
+    	
 	}
 
 

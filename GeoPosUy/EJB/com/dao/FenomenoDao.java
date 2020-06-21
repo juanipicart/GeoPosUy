@@ -1,5 +1,7 @@
 package com.dao;
 
+import java.util.List;
+
 import javax.ejb.Remote;
 import javax.swing.DefaultListModel;
 
@@ -16,4 +18,5 @@ public interface FenomenoDao {
 	public Fenomeno selectFenomenoPorNombre(String nombre) throws ProblemasNivelSQLException, NoSeRealizoOperacionException;
 	public DefaultListModel<Fenomeno> consultarFenomenos() throws ProblemasNivelSQLException, NoSeRealizoOperacionException, Exception;
 	public Fenomeno selectFenomenoPorCodigo(String codigo) throws Exception;
+	public List<Fenomeno> obtenerTodosLosFenomenos() throws Exception;
 }
