@@ -1,5 +1,6 @@
 package com.interfaz;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
@@ -25,6 +26,7 @@ import com.clases.codigueras.Estado;
 import com.clases.codigueras.TipoDocumento;
 import com.clases.relaciones.RelUbicacion;
 import com.exceptions.NoValidaParamException;
+import com.exceptions.ProblemasNivelSQLException;
 
 
 
@@ -201,6 +203,11 @@ public class ClienteGeoPosUy {
 	public static boolean validarLatitudLongitud(String latitudLongitud) throws NamingException, NoValidaParamException {
 		ObservacionesBeanRemote observacionesBeanRemote = EJBLocator.getInstance().lookup(ObservacionesBeanRemote.class);
 		return observacionesBeanRemote.validarLatLong(latitudLongitud);
+	}
+	
+	public static List<String> validarPalabrasProhibidas(String texto) throws SQLException, ProblemasNivelSQLException, NamingException {
+		ObservacionesBeanRemote observacionesBeanRemote = EJBLocator.getInstance().lookup(ObservacionesBeanRemote.class);
+		return observacionesBeanRemote.contienePalabrasProhibidas(texto);
 	}
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	

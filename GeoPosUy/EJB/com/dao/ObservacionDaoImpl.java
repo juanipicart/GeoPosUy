@@ -44,6 +44,7 @@ public class ObservacionDaoImpl implements ObservacionDao{
 	private static final String buscarPorIdUsuario = "Select * from OBSERVACIONES where ID_USUARIO = ? and ACTIVO = 1";	
 //	private static final String buscarTodos = "Select * from OBSERVACIONES";	
 	private static final String buscarTodosActivos = "Select * from OBSERVACIONES WHERE ACTIVO = 1";	
+	private static final String obtenerTodas = "SELECT PALABRA FROM PALABRAS_PROHIBIDAS ORDER BY PALABRA ASC";
 /*	private static final String buscarPorFenomeno = "Select * from OBSERVACIONES where ID_OBSERVACION in "	
 														+ "(Select ID_OBSERVACION "	
 														+ "FROM REL_OBS_FEN_CARACTERISTICAS) "	
@@ -334,6 +335,23 @@ public class ObservacionDaoImpl implements ObservacionDao{
 					res.getLong("ID_LOCALIDAD"), res.getString("ID_DEPARTAMENTO"), res.getLong("ID_ZONA"), 	
 					res.getInt("REVISADO"), res.getString("OBSERVACIONES_VALIDACION"), res.getInt("ACTIVO"), res.getLong("ID_FENOMENO") );	
 			return obs;	
+				
+		}
+		
+		@Override
+		public List<String> obtenerPalabrasProhibidas() throws SQLException, ProblemasNivelSQLException {
+			List<String> palabras = new ArrayList<>();
+			bd.setPrepStmt(obtenerTodas);
+			
+			ResultSet resultado = bd.getPrepStmt().executeQuery();	
+				
+			while (resultado.next()) {	
+				String palabra = resultado.getString(1);
+				palabras.add(palabra);		
+			} 	
+			
+			
+			return palabras;	
 				
 		}
 	}

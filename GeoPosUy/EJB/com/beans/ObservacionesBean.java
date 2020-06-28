@@ -49,8 +49,8 @@ public class ObservacionesBean implements ObservacionesBeanRemote {
 			
 		servicio.eliminarObservacion( delObservacion.getId_observacion() );	
 		return 0;	
-	}	
-		
+	}	 
+	
 	@Override	
 	public int modificarObservacion(Observacion modifObservacion) throws NoValidaParamException, ProblemasNivelSQLException, NoSeRealizoOperacionException {	
 		// 	
@@ -61,9 +61,7 @@ public class ObservacionesBean implements ObservacionesBeanRemote {
 		servicio.modificarObservacion(modifObservacion);	
 			
 		return 0;	
-	}	
-	// devolver por usuario 	
-	@Override	
+	}
 	public List<Observacion> buscarObservacionPorUsuario(long idUsuario) throws NoValidaParamException, ProblemasNivelSQLException {	
 		if ( idUsuario == 0) throw new NoValidaParamException("ID Usuario");	
 			
@@ -152,6 +150,24 @@ public class ObservacionesBean implements ObservacionesBeanRemote {
     	return consPalabraProhibida.consPalabraProhibida(palabra);	
     		
     }
+   
+    @Override
+    public List<String> contienePalabrasProhibidas(String texto) throws SQLException, ProblemasNivelSQLException {
+    	List<String> todasLasPalabras = new ArrayList<String>();
+    	List<String> palabrasQueContiene = new ArrayList<String>();
+    	
+    	if (!(servicio.obtenerPalabrasProhibidas().isEmpty())) {
+    		todasLasPalabras = servicio.obtenerPalabrasProhibidas();   	
+    	for (int i=0; i<todasLasPalabras.size(); i++) {
+    		String palabra = todasLasPalabras.get(i);
+    			if (texto.contains(palabra)) {
+    				palabrasQueContiene.add(palabra);
+    			}    		
+    	}
+    	}
+    	return palabrasQueContiene;
+    }
+    
     @Override
     public boolean existeObservacionPorFenomeno(String fenom) throws Exception {
     	return this.servicio.buscarObservacionesPorFenomeno(fenom);
@@ -174,5 +190,7 @@ public class ObservacionesBean implements ObservacionesBeanRemote {
 		return observaciones;	
 			
 	}
+
+
 
 }

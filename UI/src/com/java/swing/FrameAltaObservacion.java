@@ -5,6 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +19,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import com.clases.Fenomeno;
@@ -25,7 +28,12 @@ import com.clases.codigueras.CodDepartamento;
 import com.clases.codigueras.CodLocalidad;
 import com.clases.codigueras.CodZona;
 import com.exceptions.NoValidaParamException;
+import com.exceptions.ProblemasNivelSQLException;
 import com.interfaz.ClienteGeoPosUy;
+
+import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
+import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
+import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
 public class FrameAltaObservacion implements ActionListener {
 	
@@ -48,9 +56,10 @@ public class FrameAltaObservacion implements ActionListener {
 	
 	/** Atributos de TexField */
 	private JTextField textIdentificador;
-	private JTextField textDescripcion;
+	private JTextArea textDescripcion;
 	private JTextField textLatitud;
 	private JTextField textLongitud;
+	private JScrollPane scrollDesc;
 	
 	/*Atributos de Combobox*/
 	private JComboBox<String> comboEstado;
@@ -60,7 +69,7 @@ public class FrameAltaObservacion implements ActionListener {
 	private JComboBox<String> comboFenomeno;
 	
 	/*Atributo de Fecha*/
-	//private JDatePickerImpl calendario;
+	private JDatePickerImpl calendario;
 	
 	/** Atributos de Botones */
 	private JButton buttonRegistrar;
@@ -87,7 +96,8 @@ public class FrameAltaObservacion implements ActionListener {
 		this.labelFecha = new JLabel("Fecha:");
 		
 		this.textIdentificador = new JTextField(30);
-		this.textDescripcion = new JTextField(30);
+		this.textDescripcion = new JTextArea(5, 30);
+		scrollDesc = new JScrollPane(textDescripcion);
 		this.textLatitud = new JTextField(30);
 		this.textLongitud = new JTextField(30);
 	
@@ -130,6 +140,8 @@ public class FrameAltaObservacion implements ActionListener {
 		
 		constraints.gridx = 1;
 		nuevaObservacionPanel.add(this.textDescripcion, constraints);
+		nuevaObservacionPanel.add(scrollDesc);
+		
 
 		constraints.gridx = 0;
 		constraints.gridy = 2;
@@ -157,9 +169,9 @@ public class FrameAltaObservacion implements ActionListener {
 		constraints.gridy = 5;
 		nuevaObservacionPanel.add(this.labelFecha, constraints);
 
-		/*constraints.gridx = 1;
+		constraints.gridx = 1;
 		this.calendario = this.createDatePicker();
-		nuevaObservacionPanel.add(this.calendario, constraints);*/
+		nuevaObservacionPanel.add(this.calendario, constraints);
 		
 		constraints.gridx = 0;
 		constraints.gridy = 6;
@@ -260,13 +272,13 @@ public class FrameAltaObservacion implements ActionListener {
 
 	}
 
-	/*private JDatePickerImpl createDatePicker() {
+	private JDatePickerImpl createDatePicker() {
 
 		UtilDateModel model = new UtilDateModel();
 		JDatePanelImpl datePanel = new JDatePanelImpl(model);
 		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel);
 		return datePicker;
-	}*/
+	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -285,6 +297,7 @@ public class FrameAltaObservacion implements ActionListener {
 
 		String latitud = this.textLatitud.getText();
 		String longitud = this.textLongitud.getText();
+		String descripcion = this.textDescripcion.getText();
 		
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		//Valido que la logitud y latitud esten permitidas
@@ -301,9 +314,32 @@ public class FrameAltaObservacion implements ActionListener {
 		} catch (NoValidaParamException e) {
 			e.printStackTrace();
 		}
+		
+	
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//Valido si tiene palabras prohibidas
+		try {
+			if (!(ClienteGeoPosUy.validarPalabrasProhibidas(descripcion).isEmpty())) {
+				List<String> palabras = ClienteGeoPosUy.validarPalabrasProhibidas(descripcion);
+				String mensaje = "La observación ingresada contiene las siguientes palabras prohibidas: ";
+				for (int i=0; i<palabras.size(); i++) {
+					if (i< palabras.size()-1) {
+						mensaje = mensaje + palabras.get(i) + ", ";
+					} else {
+						mensaje = mensaje + palabras.get(i) + ".";
+					}
+				}
+								
+				JOptionPane.showMessageDialog(frame, mensaje  , "Palabras Prohibidas!",
+						JOptionPane.WARNING_MESSAGE);
+				return;
+				
+			}
+		} catch (SQLException | ProblemasNivelSQLException | NamingException e) {
+			e.printStackTrace();
 		}
 	
-	
+	}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//Métodos para cargar los combos 
 	private JComboBox<String> cargarComboZonas() throws Exception {
