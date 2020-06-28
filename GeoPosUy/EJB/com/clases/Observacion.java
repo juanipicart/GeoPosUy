@@ -40,7 +40,7 @@ public class Observacion implements Serializable{
 		this.activo = activo;	
 		this.id_fenomeno = id_fenomeno;
 	}	
-	public Observacion() {	
+	public Observacion(Long id_observacion2, Long id_usuario2, String descripcion2, String geolocalizacion2, Date fechaHora, Long id_fenomeno2) {	
 		super();	
 		this.id_observacion = 0;	
 		this.descripcion = "";	
