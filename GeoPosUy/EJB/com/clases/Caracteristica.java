@@ -1,65 +1,50 @@
 package com.clases;
 
 public class Caracteristica {
+	
+	private long id_caracteristica;
+	private String descripcion; //max 20 not null
+	private String unid_medida; //max 20 not null
+	
+	public Caracteristica(long id_caracteristica, String descripcion, String unid_medida) {
+		super();
+		this.id_caracteristica = id_caracteristica;
+		this.descripcion = descripcion;
+		this.unid_medida = unid_medida;
+	}
 
-	long id_caracteristica;
-	String etiqueta; //max 20 not null
-	String nombre; //max 20 not null
-	String tipo; //max 20 not null
-	
-	
+	public Caracteristica() {
+		super();
+		this.id_caracteristica = 0;
+		this.descripcion = "";
+		this.unid_medida = "";
+	}
+
 	public long getId_caracteristica() {
 		return id_caracteristica;
 	}
+
 	public void setId_caracteristica(long id_caracteristica) {
 		this.id_caracteristica = id_caracteristica;
 	}
-	public String getEtiqueta() {
-		return etiqueta;
+
+	public String getDescripcion() {
+		return descripcion;
 	}
-	public void setEtiqueta(String etiqueta) {
-		this.etiqueta = etiqueta;
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
-	public String getNombre() {
-		return nombre;
+
+	public String getUnid_medida() {
+		return unid_medida;
 	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-	public String getTipo() {
-		return tipo;
-	}
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
+
+	public void setUnid_medida(String unid_medida) {
+		this.unid_medida = unid_medida;
 	}
 	
-	public Caracteristica(long id_caracteristica, String etiqueta, String nombre, String tipo, String descripcion) {
-		super();
-		this.id_caracteristica = id_caracteristica;
-		this.etiqueta = etiqueta;
-		this.nombre = nombre;
-		this.tipo = tipo;
-	}
+
 	
-	public Caracteristica(long id_caracteristica, String etiqueta, String nombre, String tipo) {
-		super();
-		this.id_caracteristica = id_caracteristica;
-		this.etiqueta = etiqueta;
-		this.nombre = nombre;
-		this.tipo = tipo;
-	}
 	
-	public Caracteristica(String etiqueta, String nombre, String tipo, String descripcion) {
-		super();
-		this.etiqueta = etiqueta;
-		this.nombre = nombre;
-		this.tipo = tipo;
-	}
-	
-	public Caracteristica(String etiqueta, String nombre, String tipo) {
-		super();
-		this.etiqueta = etiqueta;
-		this.nombre = nombre;
-		this.tipo = tipo;
-	}
 }

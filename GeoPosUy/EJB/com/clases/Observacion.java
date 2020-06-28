@@ -53,7 +53,8 @@ public class Observacion implements Serializable{
 		this.id_zona = 0;	
 		this.revisado = 0;	
 		this.obsValidador = "";	
-		this.activo = 1;	
+		this.activo = 1;
+		this.id_fenomeno = 0;
 	}	
 		
 		
@@ -138,15 +139,4 @@ public class Observacion implements Serializable{
 		this.id_fenomeno = id_fenomeno;
 	}
 	
-	public Observacion(Long id_observacion2, Long id_usuario, String descripcion2, String geolocalizacion2,
-			Date fechaHora, Long id_fenomeno) {
-		super();
-		this.id_observacion = id_observacion2;
-		this.descripcion = descripcion2;
-		this.geolocalizacion = geolocalizacion2;
-		this.fecha_hora = fechaHora;
-		this.id_usuario = id_usuario;
-	}
-	
-	public String toString() { return this.descripcion + " - " + Long.toString(this.id_observacion) + " - " + this.fecha_hora;}
 }

@@ -85,9 +85,9 @@ public class ObservacionDaoImpl implements ObservacionDao{
 		}	
 		i = bd.execDML();	
 		if ( i == 0) {	
-			throw new NoSeRealizoOperacionException("Insertar observaci髇");	
+			throw new NoSeRealizoOperacionException("Insertar observaci贸n");	
 		} else if (i < 0) {	
-			throw new  ProblemasNivelSQLException("Insertar observaci髇");	
+			throw new  ProblemasNivelSQLException("Insertar observaci贸n");	
 		} else	
 			System.out.println("Se ingresaron ["+i+"] registros");		
 			
@@ -191,7 +191,7 @@ public class ObservacionDaoImpl implements ObservacionDao{
 				lsObservacion.add(obs);	
 			}	
 		}catch (SQLException e) {	
-			throw new ProblemasNivelSQLException("realizar b鷖queda por Usuario");	
+			throw new ProblemasNivelSQLException("realizar b煤squeda por Usuario");	
 		}	
 			
 		return lsObservacion;	
@@ -210,7 +210,7 @@ public class ObservacionDaoImpl implements ObservacionDao{
 //				lsObservacion.add(obs);	
 			}	
 		}catch (SQLException e) {	
-			throw new ProblemasNivelSQLException("realizar b鷖queda por Usuario");	
+			throw new ProblemasNivelSQLException("realizar b煤squeda por Usuario");	
 		}	
 			
 		return obs;	
@@ -229,7 +229,7 @@ public class ObservacionDaoImpl implements ObservacionDao{
 				lsObservacion.add(obs);	
 			}	
 		}catch (SQLException e) {	
-			throw new ProblemasNivelSQLException("realizar b鷖queda por Usuario");	
+			throw new ProblemasNivelSQLException("realizar b煤squeda por Usuario");	
 		}	
 			
 		return lsObservacion;	
@@ -247,7 +247,7 @@ public class ObservacionDaoImpl implements ObservacionDao{
 				lsObservacion.add(obs);	
 			}	
 		}catch (SQLException e) {	
-			throw new ProblemasNivelSQLException("realizar b鷖queda por Usuario");	
+			throw new ProblemasNivelSQLException("realizar b煤squeda por Usuario");	
 		}	
 			
 		return lsObservacion;	
@@ -264,7 +264,7 @@ public class ObservacionDaoImpl implements ObservacionDao{
 				lsObservacion.add(obs);	
 			}	
 		}catch (SQLException e) {	
-			throw new ProblemasNivelSQLException("realizar b鷖queda por Usuario");	
+			throw new ProblemasNivelSQLException("realizar b煤squeda por Usuario");	
 		}	
 			
 		return lsObservacion;	
@@ -302,7 +302,7 @@ public class ObservacionDaoImpl implements ObservacionDao{
 				
 				
 		} catch (SQLException e) {	
-			throw new ProblemasNivelSQLException("realizar operaci髇");
+			throw new ProblemasNivelSQLException("realizar operaci贸n");
 	
 	}
 	}
@@ -322,7 +322,7 @@ public class ObservacionDaoImpl implements ObservacionDao{
 					
 				return obs; 	
 			} catch (SQLException e) {	
-				throw new ProblemasNivelSQLException("realizar operaci髇");	
+				throw new ProblemasNivelSQLException("realizar operaci贸n");	
 					
 			}	
 			}
@@ -355,6 +355,3 @@ public class ObservacionDaoImpl implements ObservacionDao{
 				
 		}
 	}
-		
-
-
