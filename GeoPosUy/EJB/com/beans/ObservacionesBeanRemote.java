@@ -27,5 +27,6 @@ public interface ObservacionesBeanRemote {
 	public boolean existeObservacionPorFenomeno(String fenom) throws ProblemasNivelSQLException, NoSeRealizoOperacionException, SQLException, Exception;
 	
 	public List<Observacion> buscarObservacionesPorFenomenos(LinkedList<Long> codigo) throws ProblemasNivelSQLException, NoSeRealizoOperacionException, SQLException, Exception;
-
+	public boolean validarLatLong(String latlong) throws NoValidaParamException;
+	public List<String> contienePalabrasProhibidas(String texto) throws SQLException, ProblemasNivelSQLException;
 }

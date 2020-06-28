@@ -3,6 +3,7 @@ package com.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.swing.DefaultListModel;
 
 import com.bd.DBConector;
 import com.clases.Fenomeno;
@@ -42,6 +44,7 @@ public class ObservacionDaoImpl implements ObservacionDao{
 	private static final String buscarPorIdUsuario = "Select * from OBSERVACIONES where ID_USUARIO = ? and ACTIVO = 1";	
 //	private static final String buscarTodos = "Select * from OBSERVACIONES";	
 	private static final String buscarTodosActivos = "Select * from OBSERVACIONES WHERE ACTIVO = 1";	
+	private static final String obtenerTodas = "SELECT PALABRA FROM PALABRAS_PROHIBIDAS ORDER BY PALABRA ASC";
 /*	private static final String buscarPorFenomeno = "Select * from OBSERVACIONES where ID_OBSERVACION in "	
 														+ "(Select ID_OBSERVACION "	
 														+ "FROM REL_OBS_FEN_CARACTERISTICAS) "	
@@ -82,9 +85,9 @@ public class ObservacionDaoImpl implements ObservacionDao{
 		}	
 		i = bd.execDML();	
 		if ( i == 0) {	
-			throw new NoSeRealizoOperacionException("Insertar observaci髇");	
+			throw new NoSeRealizoOperacionException("Insertar observaci贸n");	
 		} else if (i < 0) {	
-			throw new  ProblemasNivelSQLException("Insertar observaci髇");	
+			throw new  ProblemasNivelSQLException("Insertar observaci贸n");	
 		} else	
 			System.out.println("Se ingresaron ["+i+"] registros");		
 			
@@ -188,7 +191,7 @@ public class ObservacionDaoImpl implements ObservacionDao{
 				lsObservacion.add(obs);	
 			}	
 		}catch (SQLException e) {	
-			throw new ProblemasNivelSQLException("realizar b鷖queda por Usuario");	
+			throw new ProblemasNivelSQLException("realizar b煤squeda por Usuario");	
 		}	
 			
 		return lsObservacion;	
@@ -207,7 +210,7 @@ public class ObservacionDaoImpl implements ObservacionDao{
 //				lsObservacion.add(obs);	
 			}	
 		}catch (SQLException e) {	
-			throw new ProblemasNivelSQLException("realizar b鷖queda por Usuario");	
+			throw new ProblemasNivelSQLException("realizar b煤squeda por Usuario");	
 		}	
 			
 		return obs;	
@@ -226,7 +229,7 @@ public class ObservacionDaoImpl implements ObservacionDao{
 				lsObservacion.add(obs);	
 			}	
 		}catch (SQLException e) {	
-			throw new ProblemasNivelSQLException("realizar b鷖queda por Usuario");	
+			throw new ProblemasNivelSQLException("realizar b煤squeda por Usuario");	
 		}	
 			
 		return lsObservacion;	
@@ -244,7 +247,7 @@ public class ObservacionDaoImpl implements ObservacionDao{
 				lsObservacion.add(obs);	
 			}	
 		}catch (SQLException e) {	
-			throw new ProblemasNivelSQLException("realizar b鷖queda por Usuario");	
+			throw new ProblemasNivelSQLException("realizar b煤squeda por Usuario");	
 		}	
 			
 		return lsObservacion;	
@@ -261,7 +264,7 @@ public class ObservacionDaoImpl implements ObservacionDao{
 				lsObservacion.add(obs);	
 			}	
 		}catch (SQLException e) {	
-			throw new ProblemasNivelSQLException("realizar b鷖queda por Usuario");	
+			throw new ProblemasNivelSQLException("realizar b煤squeda por Usuario");	
 		}	
 			
 		return lsObservacion;	
@@ -299,12 +302,31 @@ public class ObservacionDaoImpl implements ObservacionDao{
 				
 				
 		} catch (SQLException e) {	
-			throw new ProblemasNivelSQLException("realizar operaci髇");
+			throw new ProblemasNivelSQLException("realizar operaci贸n");
 	
 	}
 	}
 		
-	
+		private static Observacion getObservacionDesdeResultado(ResultSet resultado) throws ProblemasNivelSQLException {	
+			
+			try {	
+				Long id_observacion = resultado.getLong("ID_OBSERVACION");	
+				Long id_usuario = resultado.getLong("ID_USUARIO");	
+				String descripcion = resultado.getString("DESCRIPCION");	
+				String geolocalizacion = resultado.getString("GEOLOCALIZACION");	
+				Date fechaHora = resultado.getDate("FECHA_HORA");	
+				Long id_fenomeno = resultado.getLong("ID_FENOMENO");	
+					
+					
+				Observacion obs = new Observacion(id_observacion,id_usuario, descripcion, geolocalizacion,fechaHora,id_fenomeno);	
+					
+				return obs; 	
+			} catch (SQLException e) {	
+				throw new ProblemasNivelSQLException("realizar operaci贸n");	
+					
+			}	
+			}
+		
 		private Observacion getObservacionDesdeResulset(ResultSet res) throws SQLException {	
 			
 			Observacion obs = new Observacion( 	
@@ -315,7 +337,21 @@ public class ObservacionDaoImpl implements ObservacionDao{
 			return obs;	
 				
 		}
-	}
 		
-
-
+		@Override
+		public List<String> obtenerPalabrasProhibidas() throws SQLException, ProblemasNivelSQLException {
+			List<String> palabras = new ArrayList<>();
+			bd.setPrepStmt(obtenerTodas);
+			
+			ResultSet resultado = bd.getPrepStmt().executeQuery();	
+				
+			while (resultado.next()) {	
+				String palabra = resultado.getString(1);
+				palabras.add(palabra);		
+			} 	
+			
+			
+			return palabras;	
+				
+		}
+	}

@@ -1,6 +1,6 @@
 package com.clases.codigueras;
 
-public class CodPalabras_Prohibidas {
+public class PalabraProhibida {
 	
 
 	String palabra; //max 20 not null
@@ -20,13 +20,13 @@ public class CodPalabras_Prohibidas {
 	}
 
 	
-	public CodPalabras_Prohibidas(String palabra, String detalle) {
+	public PalabraProhibida(String palabra, String detalle) {
 		super();
 		this.palabra = palabra;
 		this.detalle = detalle;
 	}
 	
-	public CodPalabras_Prohibidas(String palabra) {
+	public PalabraProhibida(String palabra) {
 		super();
 		this.palabra = palabra;
 	}

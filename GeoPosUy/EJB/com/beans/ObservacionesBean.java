@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
+import javax.swing.DefaultListModel;
 
 import com.clases.Observacion;
 import com.dao.ObservacionDao;
@@ -48,8 +49,8 @@ public class ObservacionesBean implements ObservacionesBeanRemote {
 			
 		servicio.eliminarObservacion( delObservacion.getId_observacion() );	
 		return 0;	
-	}	
-		
+	}	 
+	
 	@Override	
 	public int modificarObservacion(Observacion modifObservacion) throws NoValidaParamException, ProblemasNivelSQLException, NoSeRealizoOperacionException {	
 		// 	
@@ -60,9 +61,7 @@ public class ObservacionesBean implements ObservacionesBeanRemote {
 		servicio.modificarObservacion(modifObservacion);	
 			
 		return 0;	
-	}	
-	// devolver por usuario 	
-	@Override	
+	}
 	public List<Observacion> buscarObservacionPorUsuario(long idUsuario) throws NoValidaParamException, ProblemasNivelSQLException {	
 		if ( idUsuario == 0) throw new NoValidaParamException("ID Usuario");	
 			
@@ -112,8 +111,9 @@ public class ObservacionesBean implements ObservacionesBeanRemote {
     		throw new NoValidaParamException("Contiene palabras prohibidas en Descripcion");	
     		
     }	
-   // Validar latitud y longitud	
-    private void validarLatLong(String latlong)  throws NoValidaParamException {	
+   // Validar latitud y longitud
+    @Override
+	public boolean validarLatLong(String latlong)  throws NoValidaParamException {	
     	// Latitud, Longitud Maxima en Decimal	
     	//	
     	final double longMaxW = -58.433611;     		
@@ -122,6 +122,7 @@ public class ObservacionesBean implements ObservacionesBeanRemote {
     	final double latMaxN  = -30.085556;	
     	//	
     		
+    	boolean correcto = true;
     	String[] strLatLong;	
     		
     	double latitud=0;	
@@ -131,16 +132,42 @@ public class ObservacionesBean implements ObservacionesBeanRemote {
     	strLatLong = latlong.split(",");	
     	latitud = Double.valueOf(strLatLong[0]);	
     	longitud = Double.valueOf(strLatLong[1]);	
-    		
-    	if (latitud > latMaxN || latitud < latMaxS) throw new NoValidaParamException("Latitud");	
-    	if (longitud > longMaxE || longitud < longMaxW) throw new NoValidaParamException("Longitud");	
+    	
+    
+    	if (latitud > latMaxN || latitud < latMaxS) {
+    			correcto = false;
+    	} else if (longitud > longMaxE || longitud < longMaxW) {
+    			correcto = false;
+    	}
+    	    	
+    	return correcto;
+    	
     }	
+    
     // Validar palabras prohibidas 	
     private int validarPalabrasProhibidas(String palabra)  throws NoValidaParamException, ProblemasNivelSQLException {	
     		
     	return consPalabraProhibida.consPalabraProhibida(palabra);	
     		
     }
+   
+    @Override
+    public List<String> contienePalabrasProhibidas(String texto) throws SQLException, ProblemasNivelSQLException {
+    	List<String> todasLasPalabras = new ArrayList<String>();
+    	List<String> palabrasQueContiene = new ArrayList<String>();
+    	
+    	if (!(servicio.obtenerPalabrasProhibidas().isEmpty())) {
+    		todasLasPalabras = servicio.obtenerPalabrasProhibidas();   	
+    	for (int i=0; i<todasLasPalabras.size(); i++) {
+    		String palabra = todasLasPalabras.get(i);
+    			if (texto.contains(palabra)) {
+    				palabrasQueContiene.add(palabra);
+    			}    		
+    	}
+    	}
+    	return palabrasQueContiene;
+    }
+    
     @Override
     public boolean existeObservacionPorFenomeno(String fenom) throws Exception {
     	return this.servicio.buscarObservacionesPorFenomeno(fenom);
@@ -164,4 +191,7 @@ public class ObservacionesBean implements ObservacionesBeanRemote {
 			
 	}
 
+
+
 }
+

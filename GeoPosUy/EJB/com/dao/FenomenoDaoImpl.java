@@ -132,7 +132,6 @@ public class FenomenoDaoImpl implements FenomenoDao {
 	@Override	
 	public List<Fenomeno> obtenerTodosLosFenomenos() throws Exception {	
 		List<Fenomeno> fenomenos = new ArrayList<Fenomeno>();	
-		int contador = 0;	
 		bd.setPrepStmt(selectTodosFenomenos);	
 			
 		try {	
@@ -143,7 +142,10 @@ public class FenomenoDaoImpl implements FenomenoDao {
 				Fenomeno fenomeno = getFenomenoDesdeResultado(resultado);	
 				fenomenos.add(fenomeno);		
 			} 	
-			return fenomenos;	
+			
+			resultado.close();
+			return fenomenos;
+			
 		} catch (ProblemasNivelSQLException e) {	
 			throw new ProblemasNivelSQLException("Realizar búsqueda");	
 		}	

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -236,9 +237,7 @@ public class FrameAltaUsuario implements ActionListener {
 			e.printStackTrace();
 		}
 		
-		constraints.gridx = 0;
-		constraints.gridy = 11;
-		nuevoUsuarioPanel.add(this.labelRol, constraints);
+		
 		
 		constraints.gridx = 0;
 		constraints.gridy = 10;
@@ -255,6 +254,10 @@ public class FrameAltaUsuario implements ActionListener {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		constraints.gridx = 0;
+		constraints.gridy = 11;
+		nuevoUsuarioPanel.add(this.labelRol, constraints);
 		
 		try {
 			
@@ -306,11 +309,6 @@ public class FrameAltaUsuario implements ActionListener {
 
 		
 		}
-
-	/**
-	 * Como implementos Action Listener, quiere decir que soy escuchado de
-	 * eventos. Este método es quien se ejecutan cuando tocan un boton .
-	 */
 		
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -328,8 +326,9 @@ public class FrameAltaUsuario implements ActionListener {
 
 	private void accionIngresar() {
 
-		// Si es ingresar se validan datos!
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//Acá arranco las validaciones de los datos ingresados
+		
 		String fieldUsername = this.textUsername.getText();
 		String fieldPassword = this.textPassword.getText();
 		String fieldNombre = this.textNombre.getText();
@@ -344,10 +343,10 @@ public class FrameAltaUsuario implements ActionListener {
 		String rol = (String) comboRol.getSelectedItem();
 		String estado =  (String)  comboEstado.getSelectedItem();
 		
-		System.out.println(tipoDoc);
-		
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// Si alguno es vacío, mostramos una ventana de mensaje
+		
 		if (fieldNombre.equals("") || fieldApellido.equals("") || fieldDoc.equals("") || fieldDireccion.equals("") || fieldUsername.equals("") || fieldPassword.equals("")	 ||  depto.equals("") || zona.equals("") || localidad.equals("")  ) {
 			JOptionPane.showMessageDialog(frame, "Debe completar todos los datos solicitados.", "Datos incompletos!",
 					JOptionPane.WARNING_MESSAGE);
@@ -358,8 +357,74 @@ public class FrameAltaUsuario implements ActionListener {
 		if (comboDepto.getSelectedIndex() == 0) {
 			JOptionPane.showMessageDialog(frame, "Seleccione un departamento", "Datos incompletos!",
 					JOptionPane.WARNING_MESSAGE);
+			return;
+		} else if (comboTipoDoc.getSelectedIndex() == 0) {
+			JOptionPane.showMessageDialog(frame, "Seleccione un tipo de documento", "Datos incompletos!",
+					JOptionPane.WARNING_MESSAGE);
+			return;
+		} else if (comboZona.getSelectedIndex() == 0) {
+			JOptionPane.showMessageDialog(frame, "Seleccione una zona", "Datos incompletos!",
+					JOptionPane.WARNING_MESSAGE);
+			return;
+		} else if (comboRol.getSelectedIndex() == 0) {
+			JOptionPane.showMessageDialog(frame, "Seleccione un rol", "Datos incompletos!",
+					JOptionPane.WARNING_MESSAGE);
+			return;
+		} else if (comboEstado.getSelectedIndex() == 0) {
+			JOptionPane.showMessageDialog(frame, "Seleccione un estado", "Datos incompletos!",
+					JOptionPane.WARNING_MESSAGE);
+			return;
+		} else if (comboLocalidad.getSelectedIndex() == 0) {
+			JOptionPane.showMessageDialog(frame, "Seleccione una localidad", "Datos incompletos!",
+					JOptionPane.WARNING_MESSAGE);
+			return;
+		} 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//Controlo el largo máximo de los campos
+		
+		if (fieldUsername.length() > 25 ) {
+			JOptionPane.showMessageDialog(frame, "El username no puede contener más de 25 caracteres", "Datos inválidos!",
+					JOptionPane.WARNING_MESSAGE);
+			return;
+		} else if (fieldNombre.length() > 50 ) {
+			JOptionPane.showMessageDialog(frame, "El nombre no puede contener más de 50 caracteres", "Datos inválidos!",
+					JOptionPane.WARNING_MESSAGE);
+			return;
+		} else if (fieldApellido.length() > 25 ) {
+			JOptionPane.showMessageDialog(frame, "El apellido no puede contener más de 50 caracteres", "Datos inválidos!",
+					JOptionPane.WARNING_MESSAGE);
+			return;
+		} else if (fieldDireccion.length() > 200 ) {
+			JOptionPane.showMessageDialog(frame, "La dirección no puede contener más de 200 caracteres", "Datos inválidos!",
+					JOptionPane.WARNING_MESSAGE);
+			return;
+		} else if (fieldCorreo.length() > 100 ) {
+			JOptionPane.showMessageDialog(frame, "El correo no puede contener más de 100 caracteres", "Datos inválidos!",
+					JOptionPane.WARNING_MESSAGE);
+			return;
+		} else if (fieldDoc.length() > 20 ) {
+			JOptionPane.showMessageDialog(frame, "El documento no puede contener más de 20 caracteres", "Datos inválidos!",
+					JOptionPane.WARNING_MESSAGE);
+			return;
 		}
 		
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//Controlo que la password siga los criterios de seguridad (debe contener una mayúscula, un número y una minúscula al menos)
+		
+		Pattern UpperCasePattern = Pattern.compile("[A-Z ]");
+		Pattern LowerCasePattern = Pattern.compile("[a-z ]");
+		Pattern numberPattern = Pattern.compile("[0-9 ]");
+		
+		if (fieldPassword.length() < 8 || !UpperCasePattern.matcher(fieldPassword).find()|| !LowerCasePattern.matcher(fieldPassword).find() || !numberPattern.matcher(fieldPassword).find()) { 
+			JOptionPane.showMessageDialog(frame, "La password debe tener más de 8 caracteres y contener al menos una mayúscula, una minúscula y un número", "Datos inválidos!",
+				JOptionPane.WARNING_MESSAGE);
+		return;
+	    } else if (fieldPassword.length() > 100) {
+	    	JOptionPane.showMessageDialog(frame, "La password no puede contener más de 100 caracteres", "Datos inválidos!",
+					JOptionPane.WARNING_MESSAGE);
+	    }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////		
 		//Verifico el formato de la cédula
 			
 		if (tipoDoc.equals("CI")) {
@@ -376,11 +441,14 @@ public class FrameAltaUsuario implements ActionListener {
 			} catch (HeadlessException e) {
 				e.printStackTrace();
 			} catch (NamingException e) {
-				e.printStackTrace();
+				Logger.getLogger("");
 			} 
 		} 
 				
 		
+		
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//Valido el formato del correo
 		String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 		        + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
     
@@ -396,7 +464,8 @@ public class FrameAltaUsuario implements ActionListener {
 			return;
 		}
 		
-		
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//Si llego acá estoy listo para insertar
 		try {
 			//Me fijo si el username o el documento ya existen en el sistema
 			Usuario usuarioByUsername = ClienteGeoPosUy.buscarUsuarioPorUsername(fieldUsername); 
@@ -427,16 +496,12 @@ public class FrameAltaUsuario implements ActionListener {
 						JOptionPane.WARNING_MESSAGE);
 			} 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logger.getLogger("El servidor esta apagado");
 			JOptionPane.showMessageDialog(frame, "El servidor no se encuentra disponible. Contacte al administrador", "Ha ocurrido un error",
 					JOptionPane.WARNING_MESSAGE);
 		} 
 		
-		
-		
-
-		
-		
+			
 		}
 	
 
@@ -445,7 +510,9 @@ public class FrameAltaUsuario implements ActionListener {
 		this.frame.dispose();
 
 	}
-
+	
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//Funciones para cargar los combos
 	private JComboBox<String> cargarComboZonas() throws Exception {
 		
 		mapZonas = new HashMap<String,Long >();
@@ -458,7 +525,8 @@ public class FrameAltaUsuario implements ActionListener {
 		}
 
 		JComboBox<String> combo = new JComboBox<>();
-
+		
+		combo.addItem("Seleccione una opción");
 		for (CodZona zona : zonas) {
 			combo.addItem(zona.getDescCodZona());
 			mapZonas.put(zona.getDescCodZona(),  zona.getIdCodZona());
@@ -478,6 +546,7 @@ public class FrameAltaUsuario implements ActionListener {
 			e.printStackTrace();
 		}
 		comboLocalidad.removeAllItems();
+		comboLocalidad.addItem("Seleccione una localidad");
 		for (CodLocalidad localidad : localidades) {
 			comboLocalidad.addItem(localidad.getDescCodLocalidad());
 			mapLocs.put(localidad.getDescCodLocalidad(),  localidad.getIdCodLocalidad());
@@ -535,6 +604,7 @@ public class FrameAltaUsuario implements ActionListener {
 
 		JComboBox<String> combo = new JComboBox<>();
 
+		combo.addItem("Seleccione una opción");
 		for (Rol rol : roles) {
 			combo.addItem(rol.getDescripcion_rol());
 			mapRoles.put(rol.getDescripcion_rol(),  rol.getId_rol());
@@ -552,6 +622,7 @@ public class FrameAltaUsuario implements ActionListener {
 
 		JComboBox<String> combo = new JComboBox<>();
 
+		combo.addItem("Seleccione una opción");
 		for (Estado estado : estados) {
 			combo.addItem(estado.getDesc_estado());
 			mapEstados.put(estado.getDesc_estado(),  estado.getId_estado());

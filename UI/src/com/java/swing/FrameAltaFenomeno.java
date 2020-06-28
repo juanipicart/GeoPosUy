@@ -165,7 +165,7 @@ public class FrameAltaFenomeno implements ActionListener {
 			return; }
 		
 		// Controlo el maximo de caracteres
-		if (fieldCodigo.length() > 4) {
+		if (fieldCodigo.length() > 5) {
 			JOptionPane.showMessageDialog(frame, "El código puede contener máximo 5 caracteres", "Datos inválidos!",
 					JOptionPane.WARNING_MESSAGE);
 			return;
