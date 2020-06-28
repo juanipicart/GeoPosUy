@@ -220,9 +220,7 @@ import com.interfaz.ClienteGeoPosUy;
 			//Muestro un mensaje de confirmación
 			int dialogResult = 0;
 			try {
-				Object[] options = {"Confirmar", "Cancelar"};
-				dialogResult = JOptionPane.showOptionDialog(frame, "Se dará de baja el usuario: " + usuarioAModificar.getNombre() + " " + usuarioAModificar.getApellido() + ". Desea continuar?"
-						,"Confirmar baja de usuario", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+				dialogResult = JOptionPane.showConfirmDialog(null, "Se eliminará el usuario: " + usuarioAModificar.getNombre() + " " + usuarioAModificar.getApellido() + ". Desea continuar?");
 			} catch (HeadlessException e1) {
 				e1.printStackTrace();
 			} catch (Exception e1) {

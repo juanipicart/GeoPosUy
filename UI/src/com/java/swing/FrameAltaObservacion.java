@@ -5,13 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import javax.naming.NamingException;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -19,21 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
-import com.clases.Fenomeno;
-import com.clases.codigueras.CodDepartamento;
-import com.clases.codigueras.CodLocalidad;
-import com.clases.codigueras.CodZona;
-import com.exceptions.NoValidaParamException;
-import com.exceptions.ProblemasNivelSQLException;
-import com.interfaz.ClienteGeoPosUy;
-
-import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
-import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
-import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
 public class FrameAltaObservacion implements ActionListener {
 	
@@ -56,10 +36,9 @@ public class FrameAltaObservacion implements ActionListener {
 	
 	/** Atributos de TexField */
 	private JTextField textIdentificador;
-	private JTextArea textDescripcion;
+	private JTextField textDescripcion;
 	private JTextField textLatitud;
 	private JTextField textLongitud;
-	private JScrollPane scrollDesc;
 	
 	/*Atributos de Combobox*/
 	private JComboBox<String> comboEstado;
@@ -69,17 +48,11 @@ public class FrameAltaObservacion implements ActionListener {
 	private JComboBox<String> comboFenomeno;
 	
 	/*Atributo de Fecha*/
-	private JDatePickerImpl calendario;
+	//private JDatePickerImpl calendario;
 	
 	/** Atributos de Botones */
 	private JButton buttonRegistrar;
 	private JButton buttonCancelar;
-	
-	//Hashmaps para guardar los combos
-	private Map< String,  Long> mapDeptos;
-	private Map< String,  Long> mapLocs;
-	private Map< String,  Long> mapZonas;
-	private Map< String,  Long> mapFenom;
 
 	public FrameAltaObservacion(JFrame framePadre) {
 
@@ -87,7 +60,6 @@ public class FrameAltaObservacion implements ActionListener {
 		this.labelDescripcion = new JLabel("Descripción:");
 		this.labelLatitud = new JLabel("Latitud:");
 		this.labelLongitud = new JLabel("Longitud:");
-		this.labelFenomeno = new JLabel("Fenómeno");
 		this.labelImagenes = new JLabel("Imagenes:");
 		this.labelEstado = new JLabel("Criticidad:");
 		this.labelDepartamento = new JLabel("Departamento:");
@@ -96,8 +68,7 @@ public class FrameAltaObservacion implements ActionListener {
 		this.labelFecha = new JLabel("Fecha:");
 		
 		this.textIdentificador = new JTextField(30);
-		this.textDescripcion = new JTextArea(5, 30);
-		scrollDesc = new JScrollPane(textDescripcion);
+		this.textDescripcion = new JTextField(30);
 		this.textLatitud = new JTextField(30);
 		this.textLongitud = new JTextField(30);
 	
@@ -140,8 +111,6 @@ public class FrameAltaObservacion implements ActionListener {
 		
 		constraints.gridx = 1;
 		nuevaObservacionPanel.add(this.textDescripcion, constraints);
-		nuevaObservacionPanel.add(scrollDesc);
-		
 
 		constraints.gridx = 0;
 		constraints.gridy = 2;
@@ -169,93 +138,34 @@ public class FrameAltaObservacion implements ActionListener {
 		constraints.gridy = 5;
 		nuevaObservacionPanel.add(this.labelFecha, constraints);
 
-		constraints.gridx = 1;
+		/*constraints.gridx = 1;
 		this.calendario = this.createDatePicker();
-		nuevaObservacionPanel.add(this.calendario, constraints);
+		nuevaObservacionPanel.add(this.calendario, constraints);*/
 		
-		constraints.gridx = 0;
+		/*constraints.gridx = 0;
 		constraints.gridy = 6;
-		nuevaObservacionPanel.add(this.labelFenomeno, constraints);
+		nuevaObservacionPanel.add(this.labelFenomeno, constraints);*/
 		
-		try {
-			
-			constraints.gridx = 1;
-			constraints.gridy = 6;
-			this.comboFenomeno = cargarComboFenomenos();
-			nuevaObservacionPanel.add(this.comboFenomeno, constraints);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		/* ACA HAY QUE AGREGAR EL COMBO DE FENOMENOS
+		constraints.gridx = 1;
+		nuevoUsuarioPanel.add(this.textCorreo, constraints);*/
 		
 		constraints.gridx = 0;
 		constraints.gridy = 7;
 		nuevaObservacionPanel.add(this.labelDepartamento, constraints);
 		
-		try {
-			
-			constraints.gridx = 1;
-			constraints.gridy = 7;
-			this.comboDepto = cargarComboDepartamento();
-			this.comboDepto.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-    	   
-			try {
-				cargarComboLocalidad((String) comboDepto.getSelectedItem());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		
-       }
-			});
-			nuevaObservacionPanel.add(this.comboDepto, constraints);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		constraints.gridx = 0;
-		constraints.gridy = 8;
-		nuevaObservacionPanel.add(this.labelLocalidad, constraints);
-		
-		try {
-			
-			constraints.gridx = 1;
-			constraints.gridy = 8;
-			this.comboLocalidad = new JComboBox<String>();
-			this.comboLocalidad.addItem("Seleccione una localidad");
-			nuevaObservacionPanel.add(this.comboLocalidad, constraints);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		
-		
-		constraints.gridx = 0;
-		constraints.gridy = 9;
-		nuevaObservacionPanel.add(this.labelZona, constraints);
-		
-		
-		try {
-			
-			constraints.gridx = 1;
-			constraints.gridy = 9;
-			this.comboZona = cargarComboZonas();
-			nuevaObservacionPanel.add(this.comboZona, constraints);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		/*ACA VA EL COMBO DEPARTAMENTO
+		constraints.gridx = 1;
+		nuevoUsuarioPanel.add(this.)*/
 
 		constraints.gridx = 0;
-		constraints.gridy = 10;
+		constraints.gridy = 8;
 		constraints.gridwidth = 5;
 		constraints.anchor = GridBagConstraints.CENTER;
 		nuevaObservacionPanel.add(buttonRegistrar, constraints);
 
 		constraints.gridx = 0;
-		constraints.gridy = 11;
+		constraints.gridy = 9;
 		constraints.gridwidth = 6;
 		constraints.anchor = GridBagConstraints.CENTER;
 		nuevaObservacionPanel.add(buttonCancelar, constraints);
@@ -272,13 +182,13 @@ public class FrameAltaObservacion implements ActionListener {
 
 	}
 
-	private JDatePickerImpl createDatePicker() {
+	/*private JDatePickerImpl createDatePicker() {
 
 		UtilDateModel model = new UtilDateModel();
 		JDatePanelImpl datePanel = new JDatePanelImpl(model);
 		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel);
 		return datePicker;
-	}
+	}*/
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -293,139 +203,23 @@ public class FrameAltaObservacion implements ActionListener {
 
 	}
 
-	private void accionIngresar() {
+	private void accionIngresar() {/*
 
-		String latitud = this.textLatitud.getText();
-		String longitud = this.textLongitud.getText();
-		String descripcion = this.textDescripcion.getText();
-		
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		//Valido que la logitud y latitud esten permitidas
-		String latLong = latitud + "," + longitud;
-		
-		try {
-			if (!ClienteGeoPosUy.validarLatitudLongitud(latLong)) {
-				JOptionPane.showMessageDialog(frame, "Las coordenadas geográficas no pertenecen al territorio uruguayo", "Ubicación inválida!",
-						JOptionPane.WARNING_MESSAGE);
-				return;
-			}
-		} catch (NamingException e) {
-			e.printStackTrace();
-		} catch (NoValidaParamException e) {
-			e.printStackTrace();
-		}
-		
-	
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		//Valido si tiene palabras prohibidas
-		try {
-			if (!(ClienteGeoPosUy.validarPalabrasProhibidas(descripcion).isEmpty())) {
-				List<String> palabras = ClienteGeoPosUy.validarPalabrasProhibidas(descripcion);
-				String mensaje = "La observación ingresada contiene las siguientes palabras prohibidas: ";
-				for (int i=0; i<palabras.size(); i++) {
-					if (i< palabras.size()-1) {
-						mensaje = mensaje + palabras.get(i) + ", ";
-					} else {
-						mensaje = mensaje + palabras.get(i) + ".";
-					}
-				}
-								
-				JOptionPane.showMessageDialog(frame, mensaje  , "Palabras Prohibidas!",
-						JOptionPane.WARNING_MESSAGE);
-				return;
-				
-			}
-		} catch (SQLException | ProblemasNivelSQLException | NamingException e) {
-			e.printStackTrace();
-		}
-	
-	}
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//Métodos para cargar los combos 
-	private JComboBox<String> cargarComboZonas() throws Exception {
-		
-		mapZonas = new HashMap<String,Long >();
-		List<CodZona> zonas = new ArrayList<CodZona>();
-		
-		try {
-			zonas = ClienteGeoPosUy.obtenerZonas();
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}
+		// Si es ingresar se validan datos!
 
-		JComboBox<String> combo = new JComboBox<>();
-		
-		combo.addItem("Seleccione una opción");
-		for (CodZona zona : zonas) {
-			combo.addItem(zona.getDescCodZona());
-			mapZonas.put(zona.getDescCodZona(),  zona.getIdCodZona());
-		}
+		String fieldNombre = this.textNombre.getText();
+		String fieldApellido = this.textApellido.getText();
+		String fieldDoc = this.textDoc.getText();
+		String fieldDireccion = this.textDireccion.getText();
+		String fieldUsername = this.textUsername.getText();
+		String fieldCorreo = this.textCorreo.getText();
 
-		return combo;
-	}
-		
-	private void cargarComboLocalidad(String depto) throws Exception {
-		
-		mapLocs = new HashMap<String,Long >();
-		List<CodLocalidad> localidades = new ArrayList<CodLocalidad>();
-		
-		try {
-			localidades = ClienteGeoPosUy.obtenerLocalidadesPorDepto(mapDeptos.get(depto));
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}
-		comboLocalidad.removeAllItems();
-		comboLocalidad.addItem("Seleccione una localidad");
-		for (CodLocalidad localidad : localidades) {
-			comboLocalidad.addItem(localidad.getDescCodLocalidad());
-			mapLocs.put(localidad.getDescCodLocalidad(),  localidad.getIdCodLocalidad());
-		}
+		// Si alguno es vacío, mostramos una ventana de mensaje
+		if (fieldNombre.equals("") || fieldApellido.equals("") || fieldDoc.equals("") || fieldDireccion.equals("") || fieldUsername.equals("")) {
+			JOptionPane.showMessageDialog(frame, "Debe completar todos los datos solicitados.", "Datos incompletos!",
+					JOptionPane.WARNING_MESSAGE);
 
-	}
-	
-	private JComboBox<String> cargarComboDepartamento() throws Exception {
-		
-		mapDeptos = new HashMap<String,Long >();
-		List<CodDepartamento> deptos = new ArrayList<CodDepartamento>();
-		
-		try {
-			deptos = ClienteGeoPosUy.obtenerDepartamentos();
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}
-
-		JComboBox<String> combo = new JComboBox<>();
-
-		combo.addItem("Seleccione un departamento");
-		for (CodDepartamento dep : deptos) {
-			combo.addItem(dep.getDescCodDepartamento());
-			mapDeptos.put(dep.getDescCodDepartamento(),  dep.getIdCodDepartamento());
-		}
-
-		return combo;
-	}
-	
-	private JComboBox<String> cargarComboFenomenos() throws Exception {
-		
-		mapFenom = new HashMap<String,Long >();
-		List<Fenomeno> fenomenos = new ArrayList<Fenomeno>();
-		
-		try {
-			fenomenos = ClienteGeoPosUy.ObtenerTodosLosFenomenos();
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}
-
-		JComboBox<String> combo = new JComboBox<>();
-
-		combo.addItem("Seleccione un fenómeno");
-		for (Fenomeno fenomeno : fenomenos) {
-			combo.addItem(fenomeno.getNombre());
-			mapFenom.put(fenomeno.getNombre(), fenomeno.getId_fenomeno());
-		}
-
-		return combo;
-	}
+			return; */}
 	
 	private void accionCancelar() {
 		// si se cancela, se eliminar la ventana

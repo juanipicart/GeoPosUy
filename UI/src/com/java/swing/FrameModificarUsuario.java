@@ -219,26 +219,17 @@ public class FrameModificarUsuario implements ActionListener {
 		
 		constraints.gridx = 0;
 		constraints.gridy = 8;
-		nuevoUsuarioPanel.add(this.labelDepto, constraints);
+		nuevoUsuarioPanel.add(this.labelZona, constraints);
+		
 		
 		try {
 			
 			constraints.gridx = 1;
-			constraints.gridy = 8;
-			this.comboDepto = cargarComboDepartamento();
-			this.comboDepto.setSelectedItem(mapDeptosReverse.get(user.getDepartamento()));
-			nuevoUsuarioPanel.add(this.comboDepto, constraints);
-			this.comboDepto.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-    	   
-			try {
-				cargarComboLocalidad((String) comboDepto.getSelectedItem());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		
-		}
-			});	
+			constraints.gridy = 8;			
+			this.comboZona = cargarComboZonas();
+			this.comboZona.setSelectedItem(mapZonasReverse.get(user.getZona()));
+			nuevoUsuarioPanel.add(this.comboZona, constraints);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -251,8 +242,7 @@ public class FrameModificarUsuario implements ActionListener {
 			
 			constraints.gridx = 1;
 			constraints.gridy = 9;
-			this.comboLocalidad = new JComboBox<String>();			
-			cargarComboLocalidad(mapDeptosReverse.get(user.getDepartamento()));
+			this.comboLocalidad = cargarComboLocalidad();
 			this.comboLocalidad.setSelectedItem(mapLocsReverse.get(user.getLocalidad()));
 			nuevoUsuarioPanel.add(this.comboLocalidad, constraints);
 			
@@ -262,23 +252,20 @@ public class FrameModificarUsuario implements ActionListener {
 		
 		constraints.gridx = 0;
 		constraints.gridy = 10;
-		nuevoUsuarioPanel.add(this.labelZona, constraints);
-		
+		nuevoUsuarioPanel.add(this.labelDepto, constraints);
 		
 		try {
 			
 			constraints.gridx = 1;
-			constraints.gridy = 10;			
-			this.comboZona = cargarComboZonas();
-			this.comboZona.setSelectedItem(mapZonasReverse.get(user.getZona()));
-			nuevoUsuarioPanel.add(this.comboZona, constraints);
+			constraints.gridy = 10;
+			this.comboDepto = cargarComboDepartamento();
+			this.comboDepto.setSelectedItem(mapDeptosReverse.get(user.getDepartamento()));
+			nuevoUsuarioPanel.add(this.comboDepto, constraints);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		
-				
 		constraints.gridx = 0;
 		constraints.gridy = 11;
 		nuevoUsuarioPanel.add(this.labelRol, constraints);
@@ -371,50 +358,6 @@ public class FrameModificarUsuario implements ActionListener {
 
 			return; }
 		
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		//Controlo el largo máximo de los campos
-
-		if (fieldUsername.length() > 25 ) {
-			JOptionPane.showMessageDialog(frame, "El username no puede contener más de 25 caracteres", "Datos inválidos!",
-					JOptionPane.WARNING_MESSAGE);
-			return;
-		} else if (fieldNombre.length() > 50 ) {
-			JOptionPane.showMessageDialog(frame, "El nombre no puede contener más de 50 caracteres", "Datos inválidos!",
-					JOptionPane.WARNING_MESSAGE);
-			return;
-		} else if (fieldApellido.length() > 25 ) {
-			JOptionPane.showMessageDialog(frame, "El apellido no puede contener más de 50 caracteres", "Datos inválidos!",
-					JOptionPane.WARNING_MESSAGE);
-			return;
-		} else if (fieldDireccion.length() > 200 ) {
-			JOptionPane.showMessageDialog(frame, "La dirección no puede contener más de 200 caracteres", "Datos inválidos!",
-					JOptionPane.WARNING_MESSAGE);
-			return;
-		} else if (fieldCorreo.length() > 100 ) {
-			JOptionPane.showMessageDialog(frame, "El correo no puede contener más de 100 caracteres", "Datos inválidos!",
-					JOptionPane.WARNING_MESSAGE);
-			return;
-		} else if (fieldDoc.length() > 20 ) {
-			JOptionPane.showMessageDialog(frame, "El documento no puede contener más de 20 caracteres", "Datos inválidos!",
-					JOptionPane.WARNING_MESSAGE);
-			return;
-		}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		//Controlo que la password siga los criterios de seguridad (debe contener una mayúscula, un número y una minúscula al menos)
-
-		Pattern UpperCasePattern = Pattern.compile("[A-Z ]");
-		Pattern LowerCasePattern = Pattern.compile("[a-z ]");
-		Pattern numberPattern = Pattern.compile("[0-9 ]");
-
-		if (fieldPassword.length() < 8 || !UpperCasePattern.matcher(fieldPassword).find()|| !LowerCasePattern.matcher(fieldPassword).find() || !numberPattern.matcher(fieldPassword).find()) { 
-			JOptionPane.showMessageDialog(frame, "La password debe tener más de 8 caracteres y contener al menos una mayúscula, una minúscula y un número", "Datos inválidos!",
-					JOptionPane.WARNING_MESSAGE);
-			return;
-		} else if (fieldPassword.length() > 100) {
-			JOptionPane.showMessageDialog(frame, "La password no puede contener más de 100 caracteres", "Datos inválidos!",
-					JOptionPane.WARNING_MESSAGE);
-		}
 		if (tipoDoc.equals("CI")) {
 			try {
 				if (!fieldDoc.matches("[0-9]+"))  {
@@ -515,27 +458,27 @@ public class FrameModificarUsuario implements ActionListener {
 		return combo;
 	}
 	
-	private void cargarComboLocalidad(String depto) throws Exception {
+	private JComboBox<String> cargarComboLocalidad() throws Exception {
 		
 		mapLocs = new HashMap<String,Long >();
 		mapLocsReverse = new HashMap<Long, String>();
 		List<CodLocalidad> localidades = new ArrayList<CodLocalidad>();
 		
 		try {
-			localidades = ClienteGeoPosUy.obtenerLocalidadesPorDepto(mapDeptos.get(depto));
+			localidades = ClienteGeoPosUy.obtenerLocalidades();
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
-		if (!(comboLocalidad.getItemCount() == 0)) {
-			comboLocalidad.removeAllItems();
-		}
-		comboLocalidad.addItem("Seleccione una localidad");
+
+		JComboBox<String> combo = new JComboBox<>();
+
 		for (CodLocalidad localidad : localidades) {
-			comboLocalidad.addItem(localidad.getDescCodLocalidad());
+			combo.addItem(localidad.getDescCodLocalidad());
 			mapLocs.put(localidad.getDescCodLocalidad(),  localidad.getIdCodLocalidad());
 			mapLocsReverse.put(localidad.getIdCodLocalidad(), localidad.getDescCodLocalidad());
 		}
 
+		return combo;
 	}
 	
 	private JComboBox<String> cargarComboDepartamento() throws Exception {
