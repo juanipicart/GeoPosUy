@@ -113,8 +113,9 @@ public class ObservacionesBean implements ObservacionesBeanRemote {
     		throw new NoValidaParamException("Contiene palabras prohibidas en Descripcion");	
     		
     }	
-   // Validar latitud y longitud	
-    private void validarLatLong(String latlong)  throws NoValidaParamException {	
+   // Validar latitud y longitud
+    @Override
+	public boolean validarLatLong(String latlong)  throws NoValidaParamException {	
     	// Latitud, Longitud Maxima en Decimal	
     	//	
     	final double longMaxW = -58.433611;     		
@@ -123,6 +124,7 @@ public class ObservacionesBean implements ObservacionesBeanRemote {
     	final double latMaxN  = -30.085556;	
     	//	
     		
+    	boolean correcto = true;
     	String[] strLatLong;	
     		
     	double latitud=0;	
@@ -132,10 +134,18 @@ public class ObservacionesBean implements ObservacionesBeanRemote {
     	strLatLong = latlong.split(",");	
     	latitud = Double.valueOf(strLatLong[0]);	
     	longitud = Double.valueOf(strLatLong[1]);	
-    		
-    	if (latitud > latMaxN || latitud < latMaxS) throw new NoValidaParamException("Latitud");	
-    	if (longitud > longMaxE || longitud < longMaxW) throw new NoValidaParamException("Longitud");	
+    	
+    
+    	if (latitud > latMaxN || latitud < latMaxS) {
+    			correcto = false;
+    	} else if (longitud > longMaxE || longitud < longMaxW) {
+    			correcto = false;
+    	}
+    	    	
+    	return correcto;
+    	
     }	
+    
     // Validar palabras prohibidas 	
     private int validarPalabrasProhibidas(String palabra)  throws NoValidaParamException, ProblemasNivelSQLException {	
     		

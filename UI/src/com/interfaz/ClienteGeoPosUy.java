@@ -24,6 +24,7 @@ import com.clases.codigueras.CodZona;
 import com.clases.codigueras.Estado;
 import com.clases.codigueras.TipoDocumento;
 import com.clases.relaciones.RelUbicacion;
+import com.exceptions.NoValidaParamException;
 
 
 
@@ -196,6 +197,11 @@ public class ClienteGeoPosUy {
 		ObservacionesBeanRemote observacionesBeanRemote = EJBLocator.getInstance().lookup(ObservacionesBeanRemote.class);	
 		return observacionesBeanRemote.buscarObservacionesPorFenomenos(codigo);	
 			}
+	
+	public static boolean validarLatitudLongitud(String latitudLongitud) throws NamingException, NoValidaParamException {
+		ObservacionesBeanRemote observacionesBeanRemote = EJBLocator.getInstance().lookup(ObservacionesBeanRemote.class);
+		return observacionesBeanRemote.validarLatLong(latitudLongitud);
+	}
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/*MÉTODOS PARA CARGAR LOS COMBOS DE USUARIO*/

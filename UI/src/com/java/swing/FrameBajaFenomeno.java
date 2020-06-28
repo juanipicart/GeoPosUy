@@ -40,6 +40,8 @@ public class FrameBajaFenomeno implements ActionListener {
 	/** Atributos de Botones */
 	private JButton buttonConfirmar;
 	private JButton buttonCancelar;
+	
+	Fenomeno fenomeno;
 
 	public FrameBajaFenomeno(JFrame framePadre) {
 
@@ -131,11 +133,12 @@ public class FrameBajaFenomeno implements ActionListener {
 		}
 		
 		try {
-			if (ClienteGeoPosUy.BuscarFenomenoPorCodigo(fieldCodigo) == null) {
+			fenomeno = ClienteGeoPosUy.BuscarFenomenoPorCodigo(fieldCodigo);
+			if (fenomeno == null) {
 					JOptionPane.showMessageDialog(frameBaja, "El fenómeno no existe", "Datos inválidos!",
 							JOptionPane.WARNING_MESSAGE);
 					return;
-			}
+			} 
 		} catch (HeadlessException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
@@ -159,9 +162,12 @@ public class FrameBajaFenomeno implements ActionListener {
 			e1.printStackTrace();
 		} 
 	
+		//Muestro un mensaje de confirmación
 		int dialogResult = 0;
 		try {
-			dialogResult = JOptionPane.showConfirmDialog(null, "Se eliminará el fenómeno: " + ClienteGeoPosUy.BuscarFenomenoPorCodigo(fieldCodigo).getNombre() + ". Desea continuar?");
+			Object[] options = {"Confirmar", "Cancelar"};
+			dialogResult = JOptionPane.showOptionDialog(frameBaja, "Se dará de baja el fenómeno: " + fenomeno.getNombre() + ". Desea continuar?"
+					,"Confirmar baja de fenómeno", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 		} catch (HeadlessException e1) {
 			e1.printStackTrace();
 		} catch (Exception e1) {
