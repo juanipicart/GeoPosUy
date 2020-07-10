@@ -24,7 +24,8 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	
 	private static final String crearUsuario = "INSERT INTO USUARIOS (USUARIO,NOMBRE,APELLIDO,DIRECCION,ROL,LOCALIDAD,ZONA,ESTADO,DEPARTAMENTO,MAIL,PASSWORD,TIPO_DOC,DOCUMENTO) "
 			+ "VALUES (UPPER(?),UPPER(?),UPPER(?),UPPER(?),UPPER(?),UPPER(?),UPPER(?),UPPER(?),UPPER(?),UPPER(?),?,UPPER(?),UPPER(?))";
-	
+	private static final String modifUsuario = "Update USUARIOS set NOMBRE = UPPER(?), APELLIDO = UPPER(?), DIRECCION = UPPER(?), ROL = ?, LOCALIDAD = ?, ZONA = ?, "
+			+ "ESTADO = ?, DEPARTAMENTO = ?, MAIL = UPPER(?), PASSWORD = ?, TIPO_DOC = ?, DOCUMENTO = UPPER(?) WHERE USUARIO = UPPER(?)";
 	
 	
 	
@@ -70,12 +71,11 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	
 	@Override
 	public boolean modificarUsuario(Usuario usu) throws ProblemasNivelSQLException, NoSeRealizoOperacionException {
-		String UPD_USU = "Update USUARIOS set NOMBRE = UPPER(?), APELLIDO = UPPER(?), DIRECCION = UPPER(?), ROL = ?, LOCALIDAD = ?, ZONA = ?, "
-				+ "ESTADO = ?, DEPARTAMENTO = ?, MAIL = UPPER(?), PASSWORD = ?, TIPO_DOC = ?, DOCUMENTO = UPPER(?) WHERE USUARIO = UPPER(?)";
+		
 		int i;
 		boolean exito = false;
 		// se prepara el insert
-		bd.setPrepStmt(UPD_USU);
+		bd.setPrepStmt(modifUsuario);
 		
 		//El asignar una variable puede lanzar una excepcion de SQL
 		try {
@@ -107,28 +107,6 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		exito = true;
 		}
 		return exito;
-	}
-	
-	@Override
-	public boolean chequearSiExisteUsuario(String username) throws ProblemasNivelSQLException, NoSeRealizoOperacionException {
-		final String selectUsuarioPorUsername = "SELECT * FROM USUARIOS WHERE USUARIO = ?";
-		boolean existe = false;
-		bd.setPrepStmt(selectUsuarioPorUsername);
-		
-		try {
-			bd.getPrepStmt().setString(1, username);
-			bd.execQry();
-			
-			ResultSet resultado = bd.getResultSet();
-			
-			while (resultado.next()) {
-				existe = true;
-			}
-			return existe;
-			
-		} catch (SQLException e) {
-			throw new ProblemasNivelSQLException("realizar búsqueda");
-		}
 	}
 	
 	@Override

@@ -14,7 +14,7 @@ public class Observacion implements Serializable{
 	private long id_usuario; //not null	
 	private int nivel_criticidad;  // nivel de criticidad de la observacion	
 	private long id_localidad; // Clase Localidad	
-	private String id_departamento;  // clase Deparamentos	
+	private long id_departamento;  // clase Deparamentos	
 	private long id_zona; // Clase Zona	
 	private int revisado;     // indoca si esta o no revisado	
 	private String obsValidador;  // Notas del validador	
@@ -23,7 +23,7 @@ public class Observacion implements Serializable{
 	
 
 	public Observacion(long id_observacion, String descripcion, String geolocalizacion, Date fecha_hora,	
-			long id_usuario, int nivel_criticidad, long id_localidad, String id_departamento, long id_zona,	
+			long id_usuario, int nivel_criticidad, long id_localidad, long id_departamento, long id_zona,	
 			int revisado, String obsValidador, int activo, long id_fenomeno) {	
 		super();	
 		this.id_observacion = id_observacion;	
@@ -40,6 +40,7 @@ public class Observacion implements Serializable{
 		this.activo = activo;	
 		this.id_fenomeno = id_fenomeno;
 	}	
+	
 	public Observacion(Long id_observacion2, Long id_usuario2, String descripcion2, String geolocalizacion2, Date fechaHora, Long id_fenomeno2) {	
 		super();	
 		this.id_observacion = 0;	
@@ -49,14 +50,32 @@ public class Observacion implements Serializable{
 		this.id_usuario = 0;	
 		this.nivel_criticidad = 0;	
 		this.id_localidad = 0;	
-		this.id_departamento = "";	
+		this.id_departamento = 0;	
 		this.id_zona = 0;	
 		this.revisado = 0;	
 		this.obsValidador = "";	
 		this.activo = 1;
 		this.id_fenomeno = 0;
 	}	
-		
+	
+	public Observacion(String descripcion, String geolocalizacion, Date fecha_hora,	
+			long id_usuario, int nivel_criticidad, long id_localidad, long id_departamento, long id_zona,	
+			int revisado, String obsValidador, long id_fenomeno) {	
+		super();	
+		this.descripcion = descripcion;	
+		this.geolocalizacion = geolocalizacion;	
+		this.fecha_hora = fecha_hora;	
+		this.id_usuario = id_usuario;	
+		this.nivel_criticidad = nivel_criticidad;	
+		this.id_localidad = id_localidad;	
+		this.id_departamento = id_departamento;	
+		this.id_zona = id_zona;	
+		this.revisado = revisado;	
+		this.obsValidador = obsValidador;	
+		this.id_fenomeno = id_fenomeno;
+	}	
+	
+	
 		
 	public int getActivo() {	
 		return activo;	
@@ -120,10 +139,10 @@ public class Observacion implements Serializable{
 	public void setId_localidad(long id_localidad) {	
 		this.id_localidad = id_localidad;	
 	}	
-	public String getId_departamento() {	
+	public long getId_departamento() {	
 		return id_departamento;	
 	}	
-	public void setId_departamento(String id_departamento) {	
+	public void setId_departamento(long id_departamento) {	
 		this.id_departamento = id_departamento;	
 	}	
 	public long getId_zona() {	

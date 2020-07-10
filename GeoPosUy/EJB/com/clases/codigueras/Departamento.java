@@ -2,7 +2,7 @@ package com.clases.codigueras;
 
 import java.io.Serializable;
 
-public class CodDepartamento implements Serializable{
+public class Departamento implements Serializable{
 	
 	// Codiguera de codigos de Departamentos
 	
@@ -13,10 +13,10 @@ public class CodDepartamento implements Serializable{
 	private long idCodDepartamento;
 	private String descCodDepartamento;
 
-	public CodDepartamento() {
+	public Departamento() {
 	}
 	
-	public CodDepartamento(int idCodDepartamento, String descCodDepartamento) {
+	public Departamento(int idCodDepartamento, String descCodDepartamento) {
 		this.idCodDepartamento = idCodDepartamento;
 		this.descCodDepartamento = descCodDepartamento;
 	}

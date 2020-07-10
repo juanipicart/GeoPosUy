@@ -2,19 +2,19 @@ package com.clases.codigueras;
 
 import java.io.Serializable;
 
-public class CodLocalidad implements Serializable{
+public class Localidad implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	private long idCodLocalidad;
 	private String descCodLocalidad;
 
-	public CodLocalidad() {
+	public Localidad() {
 
 		this.idCodLocalidad = 0;
 		this.descCodLocalidad = null;
 	}
 
-	public CodLocalidad(long idCodLocalidad, String descCodLocalidad) {
+	public Localidad(long idCodLocalidad, String descCodLocalidad) {
 
 		this.idCodLocalidad = idCodLocalidad;
 		this.descCodLocalidad = descCodLocalidad;

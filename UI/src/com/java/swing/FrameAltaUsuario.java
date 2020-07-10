@@ -25,11 +25,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import com.clases.Usuario;
-import com.clases.codigueras.CodDepartamento;
-import com.clases.codigueras.CodLocalidad;
+import com.clases.codigueras.Departamento;
+import com.clases.codigueras.Localidad;
 import com.clases.codigueras.Rol;
-import com.clases.codigueras.CodZona;
-import com.clases.codigueras.Estado;
+import com.clases.codigueras.Zona;
 import com.clases.codigueras.TipoDocumento;
 import com.interfaz.ClienteGeoPosUy;
 
@@ -51,8 +50,6 @@ public class FrameAltaUsuario implements ActionListener {
 	private JLabel labelRol;
 	private JLabel labelCorreo;
 	private JLabel labelPassword;
-	private JLabel labelEstado;
-
 	/** Atributos de TexField */
 	private JTextField textUsername;
 	private JTextField textNombre;
@@ -68,7 +65,6 @@ public class FrameAltaUsuario implements ActionListener {
 	private JComboBox<String> comboLocalidad;
 	private JComboBox<String> comboZona;
 	private JComboBox<String> comboRol;	
-	private JComboBox<String> comboEstado;	
 		
 	/** Atributos de Botones */
 	private JButton buttonRegistrar;
@@ -77,7 +73,6 @@ public class FrameAltaUsuario implements ActionListener {
 	private Map< String,  Long> mapTiposDoc;
 	private Map< String,  Long> mapDeptos;
 	private Map< String,  Long> mapLocs;
-	private Map< String,  Long> mapEstados;
 	private Map< String,  Long> mapRoles;
 	private Map< String,  Long> mapZonas;
 	
@@ -95,7 +90,7 @@ public class FrameAltaUsuario implements ActionListener {
 		this.labelRol = new JLabel("Rol:");
 		this.labelPassword = new JLabel("Contraseña:");
 		this.labelCorreo = new JLabel("Correo:");
-		this.labelEstado = new JLabel("Estado:");
+		new JLabel("Estado:");
 		
 		this.textDoc = new JTextField(30);
 		this.textNombre = new JTextField(30);
@@ -270,29 +265,15 @@ public class FrameAltaUsuario implements ActionListener {
 			e.printStackTrace();
 		}
 		
+		
 		constraints.gridx = 0;
 		constraints.gridy = 12;
-		nuevoUsuarioPanel.add(this.labelEstado, constraints);
-		
-		try {
-			
-			constraints.gridx = 1;
-			constraints.gridy = 12;
-			this.comboEstado = cargarComboEstados();
-			nuevoUsuarioPanel.add(this.comboEstado, constraints);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		constraints.gridx = 0;
-		constraints.gridy = 13;
 		constraints.gridwidth = 5;
 		constraints.anchor = GridBagConstraints.CENTER;
 		nuevoUsuarioPanel.add(buttonRegistrar, constraints);
 
 		constraints.gridx = 0;
-		constraints.gridy = 13;
+		constraints.gridy = 12;
 		constraints.gridwidth = 6;
 		constraints.anchor = GridBagConstraints.CENTER;
 		nuevoUsuarioPanel.add(buttonCancelar, constraints);
@@ -341,7 +322,7 @@ public class FrameAltaUsuario implements ActionListener {
 		String zona =  (String)  comboZona.getSelectedItem();
 		String localidad =  (String) comboLocalidad.getSelectedItem();
 		String rol = (String) comboRol.getSelectedItem();
-		String estado =  (String)  comboEstado.getSelectedItem();
+		
 		
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -370,11 +351,7 @@ public class FrameAltaUsuario implements ActionListener {
 			JOptionPane.showMessageDialog(frame, "Seleccione un rol", "Datos incompletos!",
 					JOptionPane.WARNING_MESSAGE);
 			return;
-		} else if (comboEstado.getSelectedIndex() == 0) {
-			JOptionPane.showMessageDialog(frame, "Seleccione un estado", "Datos incompletos!",
-					JOptionPane.WARNING_MESSAGE);
-			return;
-		} else if (comboLocalidad.getSelectedIndex() == 0) {
+		}  else if (comboLocalidad.getSelectedIndex() == 0) {
 			JOptionPane.showMessageDialog(frame, "Seleccione una localidad", "Datos incompletos!",
 					JOptionPane.WARNING_MESSAGE);
 			return;
@@ -483,7 +460,7 @@ public class FrameAltaUsuario implements ActionListener {
 			//Si no existe lo registro, si existe muestro el mensaje de error correspondiente
 			if (!username && !userDoc) {
 			ClienteGeoPosUy.registrarUsuario(fieldUsername, fieldNombre, fieldApellido, fieldDireccion, mapRoles.get(rol), mapLocs.get(localidad), 
-					mapZonas.get(zona), mapEstados.get(estado), mapDeptos.get(depto), fieldCorreo, fieldPassword, mapTiposDoc.get(tipoDoc), fieldDoc);
+					mapZonas.get(zona), 1, mapDeptos.get(depto), fieldCorreo, fieldPassword, mapTiposDoc.get(tipoDoc), fieldDoc);
 			
 				JOptionPane.showMessageDialog(frame, "Usuario registrado correctamente", "Registro completado!",
 						JOptionPane.WARNING_MESSAGE);
@@ -496,7 +473,6 @@ public class FrameAltaUsuario implements ActionListener {
 						JOptionPane.WARNING_MESSAGE);
 			} 
 		} catch (Exception e) {
-			Logger.getLogger("El servidor esta apagado");
 			JOptionPane.showMessageDialog(frame, "El servidor no se encuentra disponible. Contacte al administrador", "Ha ocurrido un error",
 					JOptionPane.WARNING_MESSAGE);
 		} 
@@ -516,7 +492,7 @@ public class FrameAltaUsuario implements ActionListener {
 	private JComboBox<String> cargarComboZonas() throws Exception {
 		
 		mapZonas = new HashMap<String,Long >();
-		List<CodZona> zonas = new ArrayList<CodZona>();
+		List<Zona> zonas = new ArrayList<Zona>();
 		
 		try {
 			zonas = ClienteGeoPosUy.obtenerZonas();
@@ -527,7 +503,7 @@ public class FrameAltaUsuario implements ActionListener {
 		JComboBox<String> combo = new JComboBox<>();
 		
 		combo.addItem("Seleccione una opción");
-		for (CodZona zona : zonas) {
+		for (Zona zona : zonas) {
 			combo.addItem(zona.getDescCodZona());
 			mapZonas.put(zona.getDescCodZona(),  zona.getIdCodZona());
 		}
@@ -538,7 +514,7 @@ public class FrameAltaUsuario implements ActionListener {
 	private void cargarComboLocalidad(String depto) throws Exception {
 		
 		mapLocs = new HashMap<String,Long >();
-		List<CodLocalidad> localidades = new ArrayList<CodLocalidad>();
+		List<Localidad> localidades = new ArrayList<Localidad>();
 		
 		try {
 			localidades = ClienteGeoPosUy.obtenerLocalidadesPorDepto(mapDeptos.get(depto));
@@ -547,7 +523,7 @@ public class FrameAltaUsuario implements ActionListener {
 		}
 		comboLocalidad.removeAllItems();
 		comboLocalidad.addItem("Seleccione una localidad");
-		for (CodLocalidad localidad : localidades) {
+		for (Localidad localidad : localidades) {
 			comboLocalidad.addItem(localidad.getDescCodLocalidad());
 			mapLocs.put(localidad.getDescCodLocalidad(),  localidad.getIdCodLocalidad());
 		}
@@ -557,7 +533,7 @@ public class FrameAltaUsuario implements ActionListener {
 	private JComboBox<String> cargarComboDepartamento() throws Exception {
 		
 		mapDeptos = new HashMap<String,Long >();
-		List<CodDepartamento> deptos = new ArrayList<CodDepartamento>();
+		List<Departamento> deptos = new ArrayList<Departamento>();
 		
 		try {
 			deptos = ClienteGeoPosUy.obtenerDepartamentos();
@@ -568,7 +544,7 @@ public class FrameAltaUsuario implements ActionListener {
 		JComboBox<String> combo = new JComboBox<>();
 
 		combo.addItem("Seleccione un departamento");
-		for (CodDepartamento dep : deptos) {
+		for (Departamento dep : deptos) {
 			combo.addItem(dep.getDescCodDepartamento());
 			mapDeptos.put(dep.getDescCodDepartamento(),  dep.getIdCodDepartamento());
 		}
@@ -613,21 +589,4 @@ public class FrameAltaUsuario implements ActionListener {
 		return combo;
 	}
 	
-	private JComboBox<String> cargarComboEstados() throws Exception {
-		
-		mapEstados = new HashMap<String,Long >();
-		List<Estado> estados = new ArrayList<Estado>();
-		
-		estados = ClienteGeoPosUy.obtenerEstado();
-
-		JComboBox<String> combo = new JComboBox<>();
-
-		combo.addItem("Seleccione una opción");
-		for (Estado estado : estados) {
-			combo.addItem(estado.getDesc_estado());
-			mapEstados.put(estado.getDesc_estado(),  estado.getId_estado());
-		}
-
-		return combo;
-	}
 }

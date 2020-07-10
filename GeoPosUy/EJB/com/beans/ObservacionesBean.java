@@ -7,8 +7,6 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
-import javax.swing.DefaultListModel;
-
 import com.clases.Observacion;
 import com.dao.ObservacionDao;
 import com.dao.PalabrasProhibidasDao;
@@ -32,15 +30,24 @@ public class ObservacionesBean implements ObservacionesBeanRemote {
     
     
 	@Override	
-	public int ingresarObservacion(Observacion insObservacion) throws NoValidaParamException, ProblemasNivelSQLException, NoSeRealizoOperacionException {	
-		// Validar param entrada	
-		validarParamObservacion(insObservacion);	
-		validarLatLong(insObservacion.getGeolocalizacion());	
-		//	
-		servicio.registrarObservacion(insObservacion);	
-		return 0;	
+	public boolean ingresarObservacion(Observacion insObservacion) throws NoValidaParamException, ProblemasNivelSQLException, NoSeRealizoOperacionException {	
+		
+		boolean registroExitoso = false;
+				
+		try {
+			servicio.registrarObservacion(insObservacion);
+			registroExitoso = true;
+		} catch (ProblemasNivelSQLException | NoSeRealizoOperacionException e) {
+			
+			e.printStackTrace();
+		}
+	
+	return (registroExitoso);
 	}	
 		
+	
+	
+
 	@Override	
 	public int borrarObservacion(Observacion delObservacion) throws NoValidaParamException, ProblemasNivelSQLException, NoSeRealizoOperacionException {	
 			
@@ -100,7 +107,7 @@ public class ObservacionesBean implements ObservacionesBeanRemote {
     		throw new NoValidaParamException("Nivel Criticidad");	
     	if (obs.getId_localidad() == 0) 	
     		throw new NoValidaParamException("Localidad");	
-    	if (obs.getId_departamento().isEmpty()) 	
+    	if (obs.getId_departamento() ==0) 	
     		throw new NoValidaParamException("Deparatamento");	
     	if (obs.getId_zona() == 0) 	
     		throw new NoValidaParamException("Zona");	
@@ -155,16 +162,18 @@ public class ObservacionesBean implements ObservacionesBeanRemote {
     public List<String> contienePalabrasProhibidas(String texto) throws SQLException, ProblemasNivelSQLException {
     	List<String> todasLasPalabras = new ArrayList<String>();
     	List<String> palabrasQueContiene = new ArrayList<String>();
+    	String[] palabrasDescripcion = texto.split(" ");
     	
-    	if (!(servicio.obtenerPalabrasProhibidas().isEmpty())) {
+    	
     		todasLasPalabras = servicio.obtenerPalabrasProhibidas();   	
     	for (int i=0; i<todasLasPalabras.size(); i++) {
     		String palabra = todasLasPalabras.get(i);
-    			if (texto.contains(palabra)) {
+    		for (int j=0; j<palabrasDescripcion.length; j++)
+    			if (palabrasDescripcion[j].toUpperCase().equals(palabra)) {
     				palabrasQueContiene.add(palabra);
     			}    		
     	}
-    	}
+    	
     	return palabrasQueContiene;
     }
     
@@ -183,12 +192,32 @@ public class ObservacionesBean implements ObservacionesBeanRemote {
 		try {	
 			observaciones = servicio.buscarObservacionesPorFenomenos(codigo);	
 		} catch (ProblemasNivelSQLException | NoSeRealizoOperacionException e) {	
-			// TODO Auto-generated catch block	
 			e.printStackTrace();	
 		}	
 			
 		return observaciones;	
 			
+	}
+	
+	@Override
+	public long obtenerNextVal() throws SQLException {
+		return servicio.obtenerNextVal();
+	}
+	
+	@Override
+	public int obtenerCriticidad(String nivel) {
+		int nivelcriticidad = 0;
+		if (nivel.equalsIgnoreCase("Alta")) {
+			nivelcriticidad = 1;
+		} else if (nivel.equalsIgnoreCase("Media")) {
+			nivelcriticidad = 2;
+		} else if (nivel.equalsIgnoreCase("Baja")) {
+			nivelcriticidad = 3;
+		} else if (nivel.equalsIgnoreCase("Informe")) {
+			nivelcriticidad = 4;
+		}
+		
+		return nivelcriticidad;
 	}
 
 

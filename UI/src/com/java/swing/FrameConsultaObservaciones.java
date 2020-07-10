@@ -2,36 +2,25 @@ package com.java.swing;
 
 	import java.awt.GridBagConstraints;
 	import java.awt.GridBagLayout;
-	import java.awt.HeadlessException;
 	import java.awt.Insets;
 	import java.awt.event.ActionEvent;
 	import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.naming.NamingException;
-	import javax.swing.BorderFactory;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 	import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 	import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 
 import com.clases.Fenomeno;
 import com.clases.Observacion;
-import com.clases.Usuario;
-import com.clases.codigueras.TipoDocumento;
 import com.interfaz.ClienteGeoPosUy;
 
 	public class FrameConsultaObservaciones implements ActionListener {
@@ -47,8 +36,7 @@ import com.interfaz.ClienteGeoPosUy;
 
 		/** Atributos de labels */
 		private JLabel labelCombo;
-		private JLabel labelDocumento;
-		private JLabel labelTipoDoc;
+	
 
 		
 		private JList<Fenomeno> comboFenomenos;

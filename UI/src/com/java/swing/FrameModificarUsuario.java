@@ -26,11 +26,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import com.clases.Usuario;
-import com.clases.codigueras.CodDepartamento;
-import com.clases.codigueras.CodLocalidad;
+import com.clases.codigueras.Departamento;
+import com.clases.codigueras.Localidad;
 import com.clases.codigueras.Rol;
 import com.clases.codigueras.TipoDocumento;
-import com.clases.codigueras.CodZona;
+import com.clases.codigueras.Zona;
 import com.clases.codigueras.Estado;
 import com.interfaz.ClienteGeoPosUy;
 
@@ -304,7 +304,9 @@ public class FrameModificarUsuario implements ActionListener {
 			constraints.gridx = 1;
 			constraints.gridy = 12;
 			this.comboEstado = cargarComboEstados();
-			this.comboEstado.setEnabled(false);
+			if (usuario.getEstado() == 1) {
+				this.comboEstado.setEnabled(false);
+			}			
 			this.comboEstado.setSelectedItem(mapEstadosReverse.get(user.getEstado()));
 			nuevoUsuarioPanel.add(this.comboEstado, constraints);
 			
@@ -496,7 +498,7 @@ public class FrameModificarUsuario implements ActionListener {
 		
 		mapZonas = new HashMap<String,Long >();
 		mapZonasReverse = new HashMap<Long, String>();
-		List<CodZona> zonas = new ArrayList<CodZona>();
+		List<Zona> zonas = new ArrayList<Zona>();
 		
 		try {
 			zonas = ClienteGeoPosUy.obtenerZonas();
@@ -506,7 +508,7 @@ public class FrameModificarUsuario implements ActionListener {
 
 		JComboBox<String> combo = new JComboBox<>();
 
-		for (CodZona zona : zonas) {
+		for (Zona zona : zonas) {
 			combo.addItem(zona.getDescCodZona());
 			mapZonas.put(zona.getDescCodZona(),  zona.getIdCodZona());
 			mapZonasReverse.put(zona.getIdCodZona(), zona.getDescCodZona());
@@ -519,7 +521,7 @@ public class FrameModificarUsuario implements ActionListener {
 		
 		mapLocs = new HashMap<String,Long >();
 		mapLocsReverse = new HashMap<Long, String>();
-		List<CodLocalidad> localidades = new ArrayList<CodLocalidad>();
+		List<Localidad> localidades = new ArrayList<Localidad>();
 		
 		try {
 			localidades = ClienteGeoPosUy.obtenerLocalidadesPorDepto(mapDeptos.get(depto));
@@ -530,7 +532,7 @@ public class FrameModificarUsuario implements ActionListener {
 			comboLocalidad.removeAllItems();
 		}
 		comboLocalidad.addItem("Seleccione una localidad");
-		for (CodLocalidad localidad : localidades) {
+		for (Localidad localidad : localidades) {
 			comboLocalidad.addItem(localidad.getDescCodLocalidad());
 			mapLocs.put(localidad.getDescCodLocalidad(),  localidad.getIdCodLocalidad());
 			mapLocsReverse.put(localidad.getIdCodLocalidad(), localidad.getDescCodLocalidad());
@@ -542,7 +544,7 @@ public class FrameModificarUsuario implements ActionListener {
 		
 		mapDeptos = new HashMap<String, Long>();
 		mapDeptosReverse = new HashMap<Long, String>();
-		List<CodDepartamento> deptos = new ArrayList<CodDepartamento>();
+		List<Departamento> deptos = new ArrayList<Departamento>();
 		
 		try {
 			deptos = ClienteGeoPosUy.obtenerDepartamentos();
@@ -552,7 +554,7 @@ public class FrameModificarUsuario implements ActionListener {
 
 		JComboBox<String> combo = new JComboBox<>();
 
-		for (CodDepartamento dep : deptos) {
+		for (Departamento dep : deptos) {
 			combo.addItem(dep.getDescCodDepartamento());
 			mapDeptos.put(dep.getDescCodDepartamento(),  dep.getIdCodDepartamento());
 			mapDeptosReverse.put(dep.getIdCodDepartamento(), dep.getDescCodDepartamento());

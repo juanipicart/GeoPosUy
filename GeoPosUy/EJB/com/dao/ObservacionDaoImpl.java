@@ -33,10 +33,11 @@ public class ObservacionDaoImpl implements ObservacionDao{
 	
 	private static final String insertarObservacion="Insert Into OBSERVACIONES (ID_OBSERVACION,  DESCRIPCION,  GEOLOCALIZACION,  "	
 			+ "FECHA_HORA,  ID_USUARIO,  NIVEL_CRITICIDAD,  ID_LOCALIDAD,  "	
-			+ "ID_DEPARTAMENTO,  ID_ZONA,  REVISADO,  OBSERVACIONES_VALIDACION, ACTIVO) Values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)" ; 
+			+ "ID_DEPARTAMENTO,  ID_ZONA,  REVISADO,  OBSERVACIONES_VALIDACION, ACTIVO, ID_FENOMENO) Values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?)" ; 
 	private static final String modificaObservacion="update OBSERVACIONES set DESCRIPCION = ?,  GEOLOCALIZACION = ?,  "	
 			+ "FECHA_HORA = ?,  ID_USUARIO = ?,  NIVEL_CRITICIDAD = ?,  ID_LOCALIDAD = ?,  "	
 			+ "ID_DEPARTAMENTO = ?,  ID_ZONA = ?,  REVISADO = ?,  OBSERVACIONES_VALIDACION = ? Where ID_OBSERVACION = ?" ;	
+	private static final String selectNextId = "SELECT MAX(ID_OBSERVACION) + 1 FROM OBSERVACIONES";
 		
 	private static final String borrarObservacion="update OBSERVACIONES set ACTIVO = 0 Where ID_OBSERVACION = ? and REVISADO = 0" ;	
 		
@@ -76,18 +77,19 @@ public class ObservacionDaoImpl implements ObservacionDao{
 			bd.getPrepStmt().setLong(4, obs.getId_usuario());	
 			bd.getPrepStmt().setInt(5, obs.getNivel_criticidad());	
 			bd.getPrepStmt().setLong(6, obs.getId_localidad());	
-			bd.getPrepStmt().setString(7, obs.getId_departamento().toUpperCase()); 	
+			bd.getPrepStmt().setLong(7, obs.getId_departamento()); 	
 			bd.getPrepStmt().setLong(8, obs.getId_zona());	
 			bd.getPrepStmt().setInt(9, obs.getRevisado());	
-			bd.getPrepStmt().setString(10, obs.getObsValidador());	
+			bd.getPrepStmt().setString(10, obs.getObsValidador());
+			bd.getPrepStmt().setLong(11, obs.getId_fenomeno());
 		} catch (SQLException e) {	
 			throw new ProblemasNivelSQLException(e.getMessage());	
 		}	
 		i = bd.execDML();	
 		if ( i == 0) {	
-			throw new NoSeRealizoOperacionException("Insertar observaciÃ³n");	
+			throw new NoSeRealizoOperacionException("Insertar observación");	
 		} else if (i < 0) {	
-			throw new  ProblemasNivelSQLException("Insertar observaciÃ³n");	
+			throw new  ProblemasNivelSQLException("Insertar observación");	
 		} else	
 			System.out.println("Se ingresaron ["+i+"] registros");		
 			
@@ -134,7 +136,7 @@ public class ObservacionDaoImpl implements ObservacionDao{
 			bd.getPrepStmt().setLong(4, obs.getId_usuario());	
 			bd.getPrepStmt().setInt(5, obs.getNivel_criticidad());	
 			bd.getPrepStmt().setLong(6, obs.getId_localidad());	
-			bd.getPrepStmt().setString(7, obs.getId_departamento().toUpperCase()); 	
+			bd.getPrepStmt().setLong(7, obs.getId_departamento()); 	
 			bd.getPrepStmt().setLong(8, obs.getId_zona());	
 			bd.getPrepStmt().setInt(9, obs.getRevisado());	
 			bd.getPrepStmt().setString(10, obs.getObsValidador());	
@@ -332,7 +334,7 @@ public class ObservacionDaoImpl implements ObservacionDao{
 			Observacion obs = new Observacion( 	
 					res.getLong("ID_OBSERVACION"), res.getString("DESCRIPCION"), res.getString("GEOLOCALIZACION"), 	
 					res.getDate("FECHA_HORA"), res.getLong("ID_USUARIO"),  res.getInt("NIVEL_CRITICIDAD"),	
-					res.getLong("ID_LOCALIDAD"), res.getString("ID_DEPARTAMENTO"), res.getLong("ID_ZONA"), 	
+					res.getLong("ID_LOCALIDAD"), res.getLong("ID_DEPARTAMENTO"), res.getLong("ID_ZONA"), 	
 					res.getInt("REVISADO"), res.getString("OBSERVACIONES_VALIDACION"), res.getInt("ACTIVO"), res.getLong("ID_FENOMENO") );	
 			return obs;	
 				
@@ -353,5 +355,19 @@ public class ObservacionDaoImpl implements ObservacionDao{
 			
 			return palabras;	
 				
+		}
+		
+		@Override
+		public long obtenerNextVal() throws SQLException {
+			long nextVal = 0;
+			bd.setPrepStmt(selectNextId);
+			
+			ResultSet resultado = bd.getPrepStmt().executeQuery();
+			
+			while (resultado.next()) {
+				nextVal = resultado.getLong(1);
+			}
+			
+			return nextVal;
 		}
 	}

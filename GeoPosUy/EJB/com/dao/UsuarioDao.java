@@ -17,7 +17,6 @@ public interface UsuarioDao {
 	public void registrarUsuario(Usuario usuario) throws ProblemasNivelSQLException, NoSeRealizoOperacionException;
 	public boolean eliminarUsuario(String username) throws ProblemasNivelSQLException, NoSeRealizoOperacionException;
 	public boolean modificarUsuario(Usuario usu) throws ProblemasNivelSQLException, NoSeRealizoOperacionException;
-	boolean chequearSiExisteUsuario(String username) throws ProblemasNivelSQLException, NoSeRealizoOperacionException;
 	public List<TipoDocumento> obtenerTiposDocumento();
 	public List<Rol> obtenerRoles();
 	public List<Estado> obtenerEstados();

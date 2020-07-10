@@ -10,8 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.naming.NamingException;
-	import javax.swing.BorderFactory;
+import javax.swing.BorderFactory;
 	import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -20,8 +19,7 @@ import javax.swing.JFrame;
 	import javax.swing.JPanel;
 	import javax.swing.JTextField;
 
-	import com.clases.Fenomeno;
-import com.clases.Usuario;
+	import com.clases.Usuario;
 import com.clases.codigueras.TipoDocumento;
 import com.interfaz.ClienteGeoPosUy;
 
@@ -212,6 +210,13 @@ import com.interfaz.ClienteGeoPosUy;
 			//Chequeo que el usuario a dar de baja no sea el del usuario logueado
 			if(usuario.getUsuario().equalsIgnoreCase(fieldUsername)) {
 				JOptionPane.showMessageDialog(frame, "No puedes dar de baja tu propio usuario",
+						"Acción inválida!", JOptionPane.WARNING_MESSAGE);
+
+				return;	
+			}
+			
+			if(usuarioAModificar.getEstado() == 2) {
+				JOptionPane.showMessageDialog(frame, "El usuario ya se encuentra inactivo",
 						"Acción inválida!", JOptionPane.WARNING_MESSAGE);
 
 				return;	

@@ -1,54 +1,65 @@
 package com.java.swing;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.naming.NamingException;
-import javax.swing.JButton;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
 import com.clases.Usuario;
 
 public class FramePrincipal {
 
 	private static Usuario usuario;
 	
-	private static JButton botonRegistrarFenomeno;
+	/*private static JButton botonRegistrarFenomeno;
 	private static JButton botonRegistrarObservacion;
 	private static JButton botonRegistrarUsuario;
 	private static JButton botonModificarUsuario;
 	private static JButton botonEliminarUsuario;
-	private static JButton botonListarObservaciones;	
+	private static JButton botonListarObservaciones;*/	
 
 		
 	public FramePrincipal(Usuario user) {
 		usuario = user;
+			
 	}
 	
+	public void main(String[] args) {
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					createAndShowGUI();
+				}
+			});
+		}
+		
 		private static void createAndShowGUI() {
 
 		
 		JFrame frame = new JFrame("GeoPosUY");
 		
-		frame.setSize(200, 200);
+		frame.setSize(800, 450);
 		frame.setResizable(false);
         frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setBackground(Color.BLUE);
 		
 		initializeMenuBar(frame);
-		initializeCentralPanel(frame);
+		//initializeCentralPanel(frame);
 
+		JPanel panel = new JPanel();
+		frame.getContentPane().add(panel, BorderLayout.CENTER);
+		panel.setBackground(Color.WHITE);
 		// Display the window.
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setSize(800,600);
+		lblNewLabel.setIcon(new ImageIcon(FramePrincipal.class.getResource("/resources/fondo.jpg")));
+		panel.add(lblNewLabel);
 		frame.setVisible(true);
 		}
 		
@@ -88,7 +99,7 @@ public class FramePrincipal {
 			
 			JMenuItem modificarUsuario = new JMenuItem("Modificar Usuario");
 			
-			nuevoUsuario.addActionListener(new ActionListener() {
+			modificarUsuario.addActionListener(new ActionListener() {
 	            @Override
 	            public void actionPerformed(ActionEvent event) {
 	                
@@ -99,7 +110,7 @@ public class FramePrincipal {
 			
 			JMenuItem darDeBajaUsuario = new JMenuItem("Dar de baja usuario");
 			
-			nuevoUsuario.addActionListener(new ActionListener() {
+			darDeBajaUsuario.addActionListener(new ActionListener() {
 	            @Override
 	            public void actionPerformed(ActionEvent event) {
 	                
@@ -126,25 +137,25 @@ public class FramePrincipal {
 	            @Override
 	            public void actionPerformed(ActionEvent event) {
 	                
-	            	new FrameAltaObservacion(frame);
+	            	new FrameAltaObservacion(frame, usuario);
 	            	
 	            }
 	        });
 		
 			
-			/*JMenuItem listarObservaciones = new JMenuItem("Listar Observaciones");
+			JMenuItem listarObservaciones = new JMenuItem("Buscar Observaciones");
 			
 			listarObservaciones.addActionListener(new ActionListener() {
 	            @Override
 	            public void actionPerformed(ActionEvent event) {
 	                
-	            	new FrameListarObservaciones(frame);
+	            	new FrameConsultaObservaciones(frame);
 	            	
 	            }
-	        });*/
+	        });
 
 			observaciones.add(nuevaObservacion);
-			//observaciones.add(listarObservaciones);
+			observaciones.add(listarObservaciones);
 			
 			menuBar.add(observaciones);
 			
@@ -193,7 +204,7 @@ public class FramePrincipal {
 		}
 			
 		//Accesos directos
-		private static void initializeCentralPanel(JFrame frame) {
+		/*private static void initializeCentralPanel(JFrame frame) {
 			
 		botonRegistrarFenomeno = new JButton("Registrar fenómeno");
 		botonRegistrarFenomeno.setFont(new Font("Dialog",Font.BOLD,12));
@@ -269,7 +280,7 @@ public class FramePrincipal {
 	    frame.pack();
 	    frame.setVisible(true);
 	    
-	    botonRegistrarUsuario.addActionListener(new ActionListener() {
+	   /* botonRegistrarUsuario.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
              
@@ -283,7 +294,7 @@ public class FramePrincipal {
             @Override
             public void actionPerformed(ActionEvent event) {
                 
-            	new FrameAltaObservacion(frame);
+            	new FrameAltaObservacion(frame, usuario);
             	
             }
         });
@@ -328,8 +339,8 @@ public class FramePrincipal {
             		
             }	
         });
-	 
-	}
+	 */
+	
 		
 		public void setVisible(boolean b) {
 			createAndShowGUI();

@@ -6,7 +6,6 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -16,7 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import com.beans.FenomenosBeanRemote;import com.interfaz.ClienteGeoPosUy;
+import com.interfaz.ClienteGeoPosUy;
 
 public class FrameAltaFenomeno implements ActionListener {
 
@@ -169,15 +168,18 @@ public class FrameAltaFenomeno implements ActionListener {
 			JOptionPane.showMessageDialog(frame, "El código puede contener máximo 5 caracteres", "Datos inválidos!",
 					JOptionPane.WARNING_MESSAGE);
 			return;
-		} else if (fieldNombre.length() > 30) {
-			JOptionPane.showMessageDialog(frame, "El nombre puede contener máximo 30 caracteres", "Datos inválidos!",
+		} else if (fieldNombre.length() > 20) {
+			JOptionPane.showMessageDialog(frame, "El nombre puede contener máximo 20 caracteres", "Datos inválidos!",
 					JOptionPane.WARNING_MESSAGE);
+			return;
 		} else if (fieldDescripcion.length() > 100) {
 			JOptionPane.showMessageDialog(frame, "La descripción puede contener máximo 100 caracteres", "Datos inválidos!",
 					JOptionPane.WARNING_MESSAGE);
+			return;
 		} else if (fieldTelefono.length() > 20) {
 			JOptionPane.showMessageDialog(frame, "El teléfono puede contener máximo 20 caracteres", "Datos inválidos!",
 					JOptionPane.WARNING_MESSAGE);
+			return;
 		}
 		
 		//Controlo que el fenomeno no exista ya

@@ -1,12 +1,9 @@
 package com.interfaz;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.swing.DefaultListModel;
 
@@ -18,13 +15,12 @@ import com.beans.UsuarioBeanRemote;
 import com.clases.Fenomeno;
 import com.clases.Observacion;
 import com.clases.Usuario;
-import com.clases.codigueras.CodDepartamento;
-import com.clases.codigueras.CodLocalidad;
+import com.clases.codigueras.Departamento;
+import com.clases.codigueras.Localidad;
 import com.clases.codigueras.Rol;
-import com.clases.codigueras.CodZona;
+import com.clases.codigueras.Zona;
 import com.clases.codigueras.Estado;
 import com.clases.codigueras.TipoDocumento;
-import com.clases.relaciones.RelUbicacion;
 import com.exceptions.NoValidaParamException;
 import com.exceptions.ProblemasNivelSQLException;
 
@@ -92,38 +88,25 @@ public class ClienteGeoPosUy {
 	
 	/*** Operaciones sobre Ubicaciones ***/
 	
-	public static List<CodZona> obtenerZonas()throws Exception {
-
-		/*UbicacionesBeanRemote ubi = null;
-		try {
-			ubi = (UbicacionesBeanRemote)InitialContext.doLookup("GeoPosUy/UbicacionesBean!com.beans.UbicacionesBeanRemote");
-		} catch (NamingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		
-		List<CodZona> aver = (List<CodZona>)ubi.retornarZonas();
-		
-		return aver;*/
+	public static List<Zona> obtenerZonas()throws Exception {
 		
 		UbicacionesBeanRemote ubicaciones = EJBLocator.getInstance().lookup(UbicacionesBeanRemote.class);
 		return ubicaciones.retornarZonas();
 	}
 	
-	public static List<CodLocalidad> obtenerLocalidades() throws Exception {
+	public static List<Localidad> obtenerLocalidades() throws Exception {
 
 		UbicacionesBeanRemote ubicaciones = EJBLocator.getInstance().lookup(UbicacionesBeanRemote.class);
 		return ubicaciones.retornarLocalidades();
 	}
 
-	public static List<CodLocalidad> obtenerLocalidadesPorDepto(long depto) throws Exception {
+	public static List<Localidad> obtenerLocalidadesPorDepto(long depto) throws Exception {
 
 		UbicacionesBeanRemote ubicaciones = EJBLocator.getInstance().lookup(UbicacionesBeanRemote.class);
 		return ubicaciones.retornarLocalidadesPorDepto(depto);
 	}
 	
-	public static List<CodDepartamento> obtenerDepartamentos() throws Exception {
+	public static List<Departamento> obtenerDepartamentos() throws Exception {
 
 		UbicacionesBeanRemote ubicaciones = EJBLocator.getInstance().lookup(UbicacionesBeanRemote.class);
 		return ubicaciones.retornarDepartamentos();
@@ -209,6 +192,23 @@ public class ClienteGeoPosUy {
 		ObservacionesBeanRemote observacionesBeanRemote = EJBLocator.getInstance().lookup(ObservacionesBeanRemote.class);
 		return observacionesBeanRemote.contienePalabrasProhibidas(texto);
 	}
+	
+	public static long obtenerNextVal() throws SQLException, NamingException {
+		ObservacionesBeanRemote observacionesBeanRemote = EJBLocator.getInstance().lookup(ObservacionesBeanRemote.class);
+		return observacionesBeanRemote.obtenerNextVal();
+	}
+	
+	public static int obtenerCriticidad(String nivel) throws NamingException {
+		ObservacionesBeanRemote observacionesBeanRemote = EJBLocator.getInstance().lookup(ObservacionesBeanRemote.class);
+		return observacionesBeanRemote.obtenerCriticidad(nivel);
+	}
+	
+	public static boolean RegistrarObservacion(Observacion obs) throws Exception {
+
+		ObservacionesBeanRemote observacionesBeanRemote = EJBLocator.getInstance().lookup(ObservacionesBeanRemote.class);
+		return observacionesBeanRemote.ingresarObservacion(obs);
+
+			}
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/*MÉTODOS PARA CARGAR LOS COMBOS DE USUARIO*/

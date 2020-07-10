@@ -14,8 +14,6 @@ import com.exceptions.ProblemasNivelSQLException;
 @Remote
 public interface UsuarioBeanRemote {
 
-	boolean ExisteUsuario(String username) throws ProblemasNivelSQLException, NoSeRealizoOperacionException;
-
 	Usuario buscarUsuarioPorUsername(String username) throws ProblemasNivelSQLException, NoSeRealizoOperacionException;
 	Usuario buscarUsuarioPorDocumento(long codTipoDoc, String documento) throws ProblemasNivelSQLException, NoSeRealizoOperacionException;
 	public boolean modificarUsuario(String username, String nombre, String apellido, String direccion, String password, String documento , long estado, long rol, long tipoDoc, String correo, long zona, long departamento, long localidad);

@@ -1,6 +1,6 @@
 package com.clases.codigueras;
 
-public class CodCriticidad {
+public class Criticidad {
 
 
 	long id_nivel;
@@ -27,13 +27,13 @@ public class CodCriticidad {
 		this.descripcion = descripcion;
 	}
 	
-	public CodCriticidad(String descripcion_corta, String descripcion) {
+	public Criticidad(String descripcion_corta, String descripcion) {
 		super();
 		this.descripcion_corta = descripcion_corta;
 		this.descripcion = descripcion;
 	}
 	
-	public CodCriticidad(long id_nivel, String descripcion_corta, String descripcion) {
+	public Criticidad(long id_nivel, String descripcion_corta, String descripcion) {
 		super();
 		this.id_nivel = id_nivel;
 		this.descripcion_corta = descripcion_corta;

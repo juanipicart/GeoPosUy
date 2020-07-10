@@ -14,7 +14,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import com.clases.Fenomeno;
@@ -177,15 +176,18 @@ public class FrameModificarFenomeno implements ActionListener {
 			return; }
 		
 		// Controlo el maximo de caracteres
-		if (fieldNombre.length() > 30) {
-			JOptionPane.showMessageDialog(frame, "El nombre puede contener máximo 30 caracteres", "Datos inválidos!",
+		if (fieldNombre.length() > 20) {
+			JOptionPane.showMessageDialog(frame, "El nombre puede contener máximo 20 caracteres", "Datos inválidos!",
 					JOptionPane.WARNING_MESSAGE);
+			return;
 		} else if (fieldDescripcion.length() > 100) {
 			JOptionPane.showMessageDialog(frame, "La descripción puede contener máximo 100 caracteres", "Datos inválidos!",
 					JOptionPane.WARNING_MESSAGE);
+			return;
 		} else if (fieldTelefono.length() > 20) {
 			JOptionPane.showMessageDialog(frame, "El teléfono puede contener máximo 20 caracteres", "Datos inválidos!",
 					JOptionPane.WARNING_MESSAGE);
+			return;
 		}
 		
 		//Controlo que el fenomeno no exista ya

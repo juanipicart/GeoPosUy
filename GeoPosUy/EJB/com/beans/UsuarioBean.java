@@ -3,21 +3,12 @@ package com.beans;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.ejb.LocalBean;
-import javax.ejb.Remote;
-import javax.ejb.Stateful;
 import javax.ejb.Stateless;
-import javax.naming.NamingException;
-
 import com.clases.Usuario;
-import com.clases.codigueras.CodDepartamento;
 import com.clases.codigueras.Estado;
 import com.clases.codigueras.Rol;
 import com.clases.codigueras.TipoDocumento;
-import com.clases.relaciones.RelUbicacion;
 import com.dao.UsuarioDao;
-import com.dao.UsuarioDaoImpl;
-import com.dao.ubicaciones.CodDepartamentosDaoImpl;
 import com.exceptions.NoSeRealizoOperacionException;
 import com.exceptions.ProblemasNivelSQLException;
 
@@ -46,7 +37,6 @@ public class UsuarioBean implements UsuarioBeanRemote {
 				servicio.registrarUsuario(user);
 				registroExitoso = true;
 		} catch (ProblemasNivelSQLException | NoSeRealizoOperacionException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		
@@ -54,8 +44,6 @@ public class UsuarioBean implements UsuarioBeanRemote {
 		
 		return (registroExitoso);
 	}
-	
-	
 	
 	@Override
 	public boolean modificarUsuario(String username, String nombre, String apellido, String direccion, String password, String documento , long estado, long rol, long tipoDoc, String correo, long zona, long departamento, long localidad) {
@@ -69,21 +57,11 @@ public class UsuarioBean implements UsuarioBeanRemote {
 			
 				
 		} catch (ProblemasNivelSQLException | NoSeRealizoOperacionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		return modifico;
 	}
-	
-	
-	@Override
-    public boolean ExisteUsuario(String username) throws ProblemasNivelSQLException, NoSeRealizoOperacionException {
-		
-    	boolean existe = servicio.chequearSiExisteUsuario(username);
-    	
-    	return existe;
-    }
 	
 	@Override
     public Usuario buscarUsuarioPorUsername(String username) throws ProblemasNivelSQLException, NoSeRealizoOperacionException {
@@ -114,7 +92,6 @@ public class UsuarioBean implements UsuarioBeanRemote {
 			return logrado = servicio.eliminarUsuario(username);
 			
 		} catch (ProblemasNivelSQLException | NoSeRealizoOperacionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return logrado;

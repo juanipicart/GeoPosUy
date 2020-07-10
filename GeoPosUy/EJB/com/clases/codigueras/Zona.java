@@ -2,18 +2,18 @@ package com.clases.codigueras;
 
 import java.io.Serializable;
 
-public class CodZona implements Serializable{
+public class Zona implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private long idCodZona;
 	private String descCodZona;
 
-	public CodZona(long idCodZona, String descCodZona) {
+	public Zona(long idCodZona, String descCodZona) {
 		this.idCodZona = idCodZona;
 		this.descCodZona = descCodZona;
 	}
 
-	public CodZona() {
+	public Zona() {
 		this.idCodZona = 0;
 		this.descCodZona = null;
 	}

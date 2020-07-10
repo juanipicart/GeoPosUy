@@ -5,8 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.ejb.Remote;
-import javax.swing.DefaultListModel;
-
 import com.clases.Observacion;
 import com.exceptions.NoSeRealizoOperacionException;
 import com.exceptions.NoValidaParamException;
@@ -16,7 +14,7 @@ import com.exceptions.ProblemasNivelSQLException;
 public interface ObservacionesBeanRemote {
 
 
-	public int ingresarObservacion ( Observacion insObservacion) throws NoValidaParamException, ProblemasNivelSQLException, NoSeRealizoOperacionException;	
+	public boolean ingresarObservacion ( Observacion insObservacion) throws NoValidaParamException, ProblemasNivelSQLException, NoSeRealizoOperacionException;	
 	public int borrarObservacion (Observacion delObservacion) throws NoValidaParamException, ProblemasNivelSQLException, NoSeRealizoOperacionException;	
 	public int modificarObservacion(Observacion modifObservacion) throws NoValidaParamException, ProblemasNivelSQLException, NoSeRealizoOperacionException;		
 		
@@ -29,4 +27,6 @@ public interface ObservacionesBeanRemote {
 	public List<Observacion> buscarObservacionesPorFenomenos(LinkedList<Long> codigo) throws ProblemasNivelSQLException, NoSeRealizoOperacionException, SQLException, Exception;
 	public boolean validarLatLong(String latlong) throws NoValidaParamException;
 	public List<String> contienePalabrasProhibidas(String texto) throws SQLException, ProblemasNivelSQLException;
+	long obtenerNextVal() throws SQLException;
+	int obtenerCriticidad(String nivel);
 }

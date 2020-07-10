@@ -24,5 +24,6 @@ public interface ObservacionDao {
 	//public List<Observacion> buscarPorFenomeno(long idFenomoeno) throws ProblemasNivelSQLException; // TODO	
 	//public List<Observacion> buscarPorFecha(Date fecha); //TODO 	
 	public List<Observacion> buscarTodas() throws ProblemasNivelSQLException;
-	public List<String> obtenerPalabrasProhibidas() throws SQLException, ProblemasNivelSQLException; 
+	public List<String> obtenerPalabrasProhibidas() throws SQLException, ProblemasNivelSQLException;
+	long obtenerNextVal() throws SQLException; 
 }
