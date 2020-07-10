@@ -23,6 +23,10 @@ import com.clases.Fenomeno;
 import com.clases.Observacion;
 import com.interfaz.ClienteGeoPosUy;
 
+import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
+import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
+import net.sourceforge.jdatepicker.impl.UtilDateModel;
+
 	public class FrameConsultaObservaciones implements ActionListener {
 
 		public static void main(String[] args) {
@@ -36,10 +40,12 @@ import com.interfaz.ClienteGeoPosUy;
 
 		/** Atributos de labels */
 		private JLabel labelCombo;
-	
-
-		
+		private JLabel fechaDesde;
+		private JLabel fechaHasta;
+			
 		private JList<Fenomeno> comboFenomenos;
+		private JDatePickerImpl fieldfechaDesde;
+		private JDatePickerImpl fieldfechaHasta;
 			
 		/** Atributos de Botones */
 
@@ -48,7 +54,9 @@ import com.interfaz.ClienteGeoPosUy;
 
 		public FrameConsultaObservaciones(JFrame framePadre) {
 			
-			this.labelCombo = new JLabel("Seleccione uno o más fenómenos");
+			this.labelCombo = new JLabel("Seleccione uno o más fenómenos presionando la tecla CONTROL");
+			this.fechaDesde = new JLabel("Fecha desde");
+			this.fechaHasta = new JLabel("Fecha hasta");
 
 			JButton buttonBuscar = new JButton("Consultar Observaciones");
 			buttonBuscar.addActionListener(this);
@@ -65,7 +73,7 @@ import com.interfaz.ClienteGeoPosUy;
 		private void initializeFrame(JFrame framePadre) {
 
 			JFrame frame = new JFrame("Consulta de observación/es mediante fenómeno/s");
-			frame.setSize(600, 400);
+			frame.setSize(300, 300);
 			frame.setResizable(false);
 			frame.setLocationRelativeTo(framePadre);
 			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -90,9 +98,25 @@ import com.interfaz.ClienteGeoPosUy;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
+			
 			constraints.gridx = 0;
 			constraints.gridy = 2;
+			consultarObservacionesPanel.add(this.fechaDesde, constraints);
+
+			constraints.gridy = 3;
+			this.fieldfechaDesde = this.createDatePicker();
+			consultarObservacionesPanel.add(this.fieldfechaDesde, constraints);
+			
+			constraints.gridx = 0;
+			constraints.gridy = 4;
+			consultarObservacionesPanel.add(this.fechaHasta, constraints);
+
+			constraints.gridy = 5;
+			this.fieldfechaHasta = this.createDatePicker();
+			consultarObservacionesPanel.add(this.fieldfechaHasta, constraints);
+
+			constraints.gridx = 0;
+			constraints.gridy = 6;
 			constraints.gridwidth = 5;
 			constraints.anchor = GridBagConstraints.CENTER;
 			consultarObservacionesPanel.add(buttonBuscar, constraints);
@@ -108,7 +132,15 @@ import com.interfaz.ClienteGeoPosUy;
 			this.frame = frame;
 
 		}				
-	        	
+	       
+		private JDatePickerImpl createDatePicker() {
+
+			UtilDateModel model = new UtilDateModel();
+			JDatePanelImpl datePanel = new JDatePanelImpl(model);
+			JDatePickerImpl datePicker = new JDatePickerImpl(datePanel);
+			return datePicker;
+		}
+		
 		private JList<Fenomeno> cargarComboFenomenos() throws Exception {
 			
 			//Creo un map para guardar la correspondencia de ids con descripciones

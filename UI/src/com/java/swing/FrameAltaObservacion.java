@@ -102,7 +102,6 @@ public class FrameAltaObservacion implements ActionListener {
 		
 		this.textIdentificador = new JTextField(30);
 		this.textDescripcion = new JTextField(30);
-		scrollDesc = new JScrollPane(textDescripcion);
 		this.textLatitud = new JTextField(30);
 		this.textLongitud = new JTextField(30);
 	
