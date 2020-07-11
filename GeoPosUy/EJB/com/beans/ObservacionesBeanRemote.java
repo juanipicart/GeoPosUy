@@ -1,6 +1,7 @@
 package com.beans;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,16 +16,11 @@ public interface ObservacionesBeanRemote {
 
 
 	public boolean ingresarObservacion ( Observacion insObservacion) throws NoValidaParamException, ProblemasNivelSQLException, NoSeRealizoOperacionException;	
-	public int borrarObservacion (Observacion delObservacion) throws NoValidaParamException, ProblemasNivelSQLException, NoSeRealizoOperacionException;	
 	public int modificarObservacion(Observacion modifObservacion) throws NoValidaParamException, ProblemasNivelSQLException, NoSeRealizoOperacionException;		
-		
-	public List<Observacion> buscarObservacionPorUsuario(long idUsuario) throws NoValidaParamException, ProblemasNivelSQLException;	
 	public List<Observacion> buscarObservacion() throws ProblemasNivelSQLException;	
-	public Observacion buscarObservacionPorID(long idObservacion) throws NoValidaParamException, ProblemasNivelSQLException;
-
 	public boolean existeObservacionPorFenomeno(String fenom) throws ProblemasNivelSQLException, NoSeRealizoOperacionException, SQLException, Exception;
 	
-	public List<Observacion> buscarObservacionesPorFenomenos(LinkedList<Long> codigo) throws ProblemasNivelSQLException, NoSeRealizoOperacionException, SQLException, Exception;
+	public List<Observacion> buscarObservacionesPorFenomenos(LinkedList<Long> codigo, Date fechaDesde, java.util.Date fechaHasta) throws ProblemasNivelSQLException, NoSeRealizoOperacionException, SQLException, Exception;
 	public boolean validarLatLong(String latlong) throws NoValidaParamException;
 	public List<String> contienePalabrasProhibidas(String texto) throws SQLException, ProblemasNivelSQLException;
 	long obtenerNextVal() throws SQLException;

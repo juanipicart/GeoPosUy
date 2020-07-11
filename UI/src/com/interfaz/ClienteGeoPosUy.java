@@ -1,6 +1,7 @@
 package com.interfaz;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -178,9 +179,9 @@ public class ClienteGeoPosUy {
 
 		}
 
-	public static List<Observacion> buscarObservacionesPorFenomenos(LinkedList<Long> codigo) throws Exception {	
+	public static List<Observacion> buscarObservacionesPorFenomenos(LinkedList<Long> codigo, java.util.Date fechaDesde, java.util.Date fechaHasta) throws Exception {	
 		ObservacionesBeanRemote observacionesBeanRemote = EJBLocator.getInstance().lookup(ObservacionesBeanRemote.class);	
-		return observacionesBeanRemote.buscarObservacionesPorFenomenos(codigo);	
+		return observacionesBeanRemote.buscarObservacionesPorFenomenos(codigo, fechaDesde, fechaHasta);	
 			}
 	
 	public static boolean validarLatitudLongitud(String latitudLongitud) throws NamingException, NoValidaParamException {

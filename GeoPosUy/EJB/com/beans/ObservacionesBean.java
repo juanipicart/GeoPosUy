@@ -2,6 +2,7 @@ package com.beans;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -45,22 +46,10 @@ public class ObservacionesBean implements ObservacionesBeanRemote {
 	return (registroExitoso);
 	}	
 		
-	
-	
 
 	@Override	
-	public int borrarObservacion(Observacion delObservacion) throws NoValidaParamException, ProblemasNivelSQLException, NoSeRealizoOperacionException {	
-			
-		// validar id no vacio	
-		if ( delObservacion.getId_observacion() == 0) throw new NoValidaParamException("ID Observacion");	
-			
-		servicio.eliminarObservacion( delObservacion.getId_observacion() );	
-		return 0;	
-	}	 
-	
-	@Override	
 	public int modificarObservacion(Observacion modifObservacion) throws NoValidaParamException, ProblemasNivelSQLException, NoSeRealizoOperacionException {	
-		// 	
+
 		// Validar param entrada	
 	    validarParamObservacion(modifObservacion);	
 	    validarLatLong(modifObservacion.getGeolocalizacion());	
@@ -69,13 +58,7 @@ public class ObservacionesBean implements ObservacionesBeanRemote {
 			
 		return 0;	
 	}
-	public List<Observacion> buscarObservacionPorUsuario(long idUsuario) throws NoValidaParamException, ProblemasNivelSQLException {	
-		if ( idUsuario == 0) throw new NoValidaParamException("ID Usuario");	
-			
-		List<Observacion> observacionXUsuario = new ArrayList<Observacion>();	
-		observacionXUsuario = servicio.buscarPorUsuario(idUsuario);	
-		return observacionXUsuario;	
-	}	
+	
 	// devolver todos	
 	@Override	
 	public List<Observacion> buscarObservacion() throws ProblemasNivelSQLException {	
@@ -84,14 +67,7 @@ public class ObservacionesBean implements ObservacionesBeanRemote {
 		observacion = servicio.buscarTodas();	
 		return observacion;	
 	}	
-	// Devolver por id	
-	@Override	
-	public Observacion buscarObservacionPorID(long idObservacion) throws NoValidaParamException, ProblemasNivelSQLException {	
-		if ( idObservacion == 0) throw new NoValidaParamException("ID Observacion");	
-		Observacion observacionXId = null;	
-		observacionXId = servicio.buscarPorId(idObservacion);	
-		return observacionXId;	
-	}	
+	
 	// Validar parametros correctos	
     private void validarParamObservacion(Observacion obs) throws NoValidaParamException, ProblemasNivelSQLException  {	
 			
@@ -185,12 +161,12 @@ public class ObservacionesBean implements ObservacionesBeanRemote {
     }
  
 	@Override	
-	public List<Observacion> buscarObservacionesPorFenomenos(LinkedList<Long> codigo)	
+	public List<Observacion> buscarObservacionesPorFenomenos(LinkedList<Long> codigo, Date fechaDesde, Date fechaHasta)	
 			throws ProblemasNivelSQLException, NoSeRealizoOperacionException, SQLException, Exception {	
 		List<Observacion> observaciones = new ArrayList<>();	
 			
 		try {	
-			observaciones = servicio.buscarObservacionesPorFenomenos(codigo);	
+			observaciones = servicio.buscarObservacionesPorFenomenos(codigo, fechaDesde, fechaHasta);	
 		} catch (ProblemasNivelSQLException | NoSeRealizoOperacionException e) {	
 			e.printStackTrace();	
 		}	

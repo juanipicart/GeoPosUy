@@ -11,8 +11,6 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-import javax.swing.DefaultListModel;
-
 import com.bd.DBConector;
 import com.clases.Fenomeno;
 import com.clases.Observacion;
@@ -39,22 +37,10 @@ public class ObservacionDaoImpl implements ObservacionDao{
 			+ "ID_DEPARTAMENTO = ?,  ID_ZONA = ?,  REVISADO = ?,  OBSERVACIONES_VALIDACION = ? Where ID_OBSERVACION = ?" ;	
 	private static final String selectNextId = "SELECT MAX(ID_OBSERVACION) + 1 FROM OBSERVACIONES";
 		
-	private static final String borrarObservacion="update OBSERVACIONES set ACTIVO = 0 Where ID_OBSERVACION = ? and REVISADO = 0" ;	
 		
-	private static final String buscarPorId = "Select * from OBSERVACIONES where ID_OBSERVACION = ? and ACTIVO = 1";	
-	private static final String buscarPorIdUsuario = "Select * from OBSERVACIONES where ID_USUARIO = ? and ACTIVO = 1";	
-//	private static final String buscarTodos = "Select * from OBSERVACIONES";	
 	private static final String buscarTodosActivos = "Select * from OBSERVACIONES WHERE ACTIVO = 1";	
 	private static final String obtenerTodas = "SELECT PALABRA FROM PALABRAS_PROHIBIDAS ORDER BY PALABRA ASC";
-/*	private static final String buscarPorFenomeno = "Select * from OBSERVACIONES where ID_OBSERVACION in "	
-														+ "(Select ID_OBSERVACION "	
-														+ "FROM REL_OBS_FEN_CARACTERISTICAS) "	
-														+ "Where ID_FENOMENO = ?)"	
-														+ "and ACTIVO = 1";	
-*/		
-/*	private static final String devolverValorObservaciones = "Select ID_FENOMENO, ID_CARACTERISTICA, VALOR from REL_OBS_FEN_CARACTERISTICAS "	
-			+ "Where ID_OBSERVACION = ? ";	
-*/
+
 	
 	@EJB
 	FenomenoDao fenomenoDao;
@@ -94,32 +80,6 @@ public class ObservacionDaoImpl implements ObservacionDao{
 			System.out.println("Se ingresaron ["+i+"] registros");		
 			
 	}	
-
-
-	@Override
-	public void eliminarObservacion(long id_observacion) throws ProblemasNivelSQLException, NoSeRealizoOperacionException {
-		
-		int i;
-		
-		bd.setPrepStmt(borrarObservacion);
-		
-
-		try {
-			bd.getPrepStmt().setLong(1, id_observacion);			
-		} catch (SQLException e) {
-			throw new ProblemasNivelSQLException(e.getMessage());
-		}
-		i= bd.execDML();
-		
-
-		if ( i == 0) {
-			throw new NoSeRealizoOperacionException("Eliminar observacion");
-		} else if (i < 0) {
-			throw new  ProblemasNivelSQLException("Eliminar observacion");
-		} else
-			System.out.println("Se eliminaron ["+i+"] registros");
-		
-	}
 
 	@Override	
 	public void modificarObservacion(Observacion obs) throws ProblemasNivelSQLException, NoSeRealizoOperacionException {	
@@ -178,82 +138,7 @@ public class ObservacionDaoImpl implements ObservacionDao{
 		return existe;
 		
 		}
-		
-	@Override	
-	public List<Observacion> buscarPorUsuario(long idUsuario) throws ProblemasNivelSQLException {	
-			
-		List<Observacion> lsObservacion = new ArrayList<Observacion>();	
-		bd.setPrepStmt(buscarPorIdUsuario);	
-			
-		try {	
-			bd.getPrepStmt().setLong(1, idUsuario);	
-			bd.execQry();	
-			while (bd.getResultSet().next()) {	
-				Observacion obs = getObservacionDesdeResulset(bd.getResultSet());	
-				lsObservacion.add(obs);	
-			}	
-		}catch (SQLException e) {	
-			throw new ProblemasNivelSQLException("realizar búsqueda por Usuario");	
-		}	
-			
-		return lsObservacion;	
-	}	
-	@Override	
-	public Observacion buscarPorId(long idObservacion) throws ProblemasNivelSQLException {	
-		Observacion obs = null;	
-//		List<Observacion> lsObservacion = new ArrayList<Observacion>();	
-		bd.setPrepStmt(buscarPorId);	
-			
-		try {	
-			bd.getPrepStmt().setLong(1, idObservacion);	
-			bd.execQry();	
-			while (bd.getResultSet().next()) {	
-				obs = getObservacionDesdeResulset(bd.getResultSet());	
-//				lsObservacion.add(obs);	
-			}	
-		}catch (SQLException e) {	
-			throw new ProblemasNivelSQLException("realizar búsqueda por Usuario");	
-		}	
-			
-		return obs;	
-	}	
-/*	
-	@Override	
-	public List<Observacion> buscarPorFenomeno(long idFenomoeno) throws ProblemasNivelSQLException {	
-		List<Observacion> lsObservacion = new ArrayList<Observacion>();	
-		bd.setPrepStmt(buscarPorFenomeno);	
-			
-		try {	
-			bd.getPrepStmt().setLong(1, idFenomoeno);	
-			bd.execQry();	
-			while (bd.getResultSet().next()) {	
-				Observacion obs = getObservacionDesdeResulset(bd.getResultSet());	
-				lsObservacion.add(obs);	
-			}	
-		}catch (SQLException e) {	
-			throw new ProblemasNivelSQLException("realizar búsqueda por Usuario");	
-		}	
-			
-		return lsObservacion;	
-	}	
-	@Override	
-	public List<Observacion> buscarPorFecha(Date fecha) {	
-		List<Observacion> lsObservacion = new ArrayList<Observacion>();	
-		bd.setPrepStmt(buscarPor);	
-			
-		try {	
-			bd.getPrepStmt().setLong(1, idFenomoeno);	
-			bd.execQry();	
-			while (bd.getResultSet().next()) {	
-				Observacion obs = getObservacionDesdeResulset(bd.getResultSet());	
-				lsObservacion.add(obs);	
-			}	
-		}catch (SQLException e) {	
-			throw new ProblemasNivelSQLException("realizar búsqueda por Usuario");	
-		}	
-			
-		return lsObservacion;	
-	}*/	
+
 	@Override	
 	public List<Observacion> buscarTodas() throws ProblemasNivelSQLException {	
 		List<Observacion> lsObservacion = new ArrayList<Observacion>();	
@@ -272,7 +157,7 @@ public class ObservacionDaoImpl implements ObservacionDao{
 		return lsObservacion;	
 	}
 	@Override	
-	public List<Observacion> buscarObservacionesPorFenomenos(LinkedList<Long> codigo) throws Exception {	
+	public List<Observacion> buscarObservacionesPorFenomenos(LinkedList<Long> codigo, Date fechaDesde, Date fechaHasta) throws Exception {	
 			
 		int contador = 0;	
 			
@@ -280,7 +165,8 @@ public class ObservacionDaoImpl implements ObservacionDao{
 				
 			List<Observacion> observaciones = new ArrayList<>();	
 				
-			String ObsPorFenomeno = "Select * from OBSERVACIONES where ID_FENOMENO IN (";	
+			String ObsPorFenomeno = "Select * from OBSERVACIONES where ID_FENOMENO IN (";
+			String Fechas = " AND FECHA_HORA BETWEEN ? AND ?";
 			String ids = "";	
 			for (Iterator<Long> i = codigo.iterator(); i.hasNext();) {	
 				ids += i.next().toString();	
@@ -289,9 +175,14 @@ public class ObservacionDaoImpl implements ObservacionDao{
 				
 			ids = ids.substring(0,ids.length()-1);	
 			ids = ids.concat(")");	
-			ObsPorFenomeno = ObsPorFenomeno.concat(ids);	
+			ObsPorFenomeno = ObsPorFenomeno.concat(ids);
+			String SelectFinal = ObsPorFenomeno + Fechas;
 				
-			bd.setPrepStmt(ObsPorFenomeno);		
+			bd.setPrepStmt(SelectFinal);
+			java.sql.Date sqlDateDesde = new java.sql.Date(fechaDesde.getTime());
+			java.sql.Date sqlDateHasta = new java.sql.Date(fechaHasta.getTime());
+			bd.getPrepStmt().setDate(1, sqlDateDesde);
+			bd.getPrepStmt().setDate(2, sqlDateHasta);
 			ResultSet resultado = bd.getPrepStmt().executeQuery();	
 				
 				
@@ -304,30 +195,11 @@ public class ObservacionDaoImpl implements ObservacionDao{
 				
 				
 		} catch (SQLException e) {	
-			throw new ProblemasNivelSQLException("realizar operación");
+			throw new ProblemasNivelSQLException("realizar operaci�n");
 	
 	}
 	}
 		
-		private static Observacion getObservacionDesdeResultado(ResultSet resultado) throws ProblemasNivelSQLException {	
-			
-			try {	
-				Long id_observacion = resultado.getLong("ID_OBSERVACION");	
-				Long id_usuario = resultado.getLong("ID_USUARIO");	
-				String descripcion = resultado.getString("DESCRIPCION");	
-				String geolocalizacion = resultado.getString("GEOLOCALIZACION");	
-				Date fechaHora = resultado.getDate("FECHA_HORA");	
-				Long id_fenomeno = resultado.getLong("ID_FENOMENO");	
-					
-					
-				Observacion obs = new Observacion(id_observacion,id_usuario, descripcion, geolocalizacion,fechaHora,id_fenomeno);	
-					
-				return obs; 	
-			} catch (SQLException e) {	
-				throw new ProblemasNivelSQLException("realizar operación");	
-					
-			}	
-			}
 		
 		private Observacion getObservacionDesdeResulset(ResultSet res) throws SQLException {	
 			
@@ -350,11 +222,8 @@ public class ObservacionDaoImpl implements ObservacionDao{
 			while (resultado.next()) {	
 				String palabra = resultado.getString(1);
 				palabras.add(palabra);		
-			} 	
-			
-			
-			return palabras;	
-				
+			} 				
+			return palabras;					
 		}
 		
 		@Override
@@ -370,4 +239,6 @@ public class ObservacionDaoImpl implements ObservacionDao{
 			
 			return nextVal;
 		}
+
+
 	}

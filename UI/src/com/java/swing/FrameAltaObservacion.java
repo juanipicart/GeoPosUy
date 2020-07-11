@@ -150,7 +150,6 @@ public class FrameAltaObservacion implements ActionListener {
 		
 		constraints.gridx = 1;
 		nuevaObservacionPanel.add(this.textDescripcion, constraints);
-		nuevaObservacionPanel.add(scrollDesc);
 		
 
 		constraints.gridx = 0;
@@ -325,6 +324,13 @@ public class FrameAltaObservacion implements ActionListener {
 					JOptionPane.WARNING_MESSAGE);
 
 			return; }
+		
+		if (fecha == null) {
+			
+			JOptionPane.showMessageDialog(frame, "Ingrese la fecha", "Ha ocurrido un error!",
+					JOptionPane.WARNING_MESSAGE);
+			return;
+		}
 		
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		//Valido el valor de los combos

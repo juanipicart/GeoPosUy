@@ -5,27 +5,28 @@ package com.java.swing;
 	import java.awt.Insets;
 	import java.awt.event.ActionEvent;
 	import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+	import java.util.Date;
+	import java.util.ArrayList;
+	import java.util.LinkedList;
+	import java.util.List;
 
-import javax.swing.BorderFactory;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JFrame;
+	import javax.swing.BorderFactory;
+	import javax.swing.DefaultListModel;
+	import javax.swing.JButton;
+	import javax.swing.JFrame;
 	import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
+	import javax.swing.JList;
+	import javax.swing.JOptionPane;
 	import javax.swing.JPanel;
-import javax.swing.ListSelectionModel;
+	import javax.swing.ListSelectionModel;
 
-import com.clases.Fenomeno;
-import com.clases.Observacion;
-import com.interfaz.ClienteGeoPosUy;
+	import com.clases.Fenomeno;
+	import com.clases.Observacion;
+	import com.interfaz.ClienteGeoPosUy;
 
-import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
-import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
-import net.sourceforge.jdatepicker.impl.UtilDateModel;
+	import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
+	import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
+	import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
 	public class FrameConsultaObservaciones implements ActionListener {
 
@@ -189,7 +190,16 @@ import net.sourceforge.jdatepicker.impl.UtilDateModel;
 		
 		private void accionConsultar() {
 			
+			Date fechaDesde = (Date) fieldfechaDesde.getModel().getValue();
+			Date fechaHasta = (Date) fieldfechaHasta.getModel().getValue();
 			ArrayList<Fenomeno> CapturarLista = new ArrayList();
+			
+			if (fechaDesde == null || fechaHasta == null) {
+				
+				JOptionPane.showMessageDialog(frame, "Complete ambas fechas para realizar la busqueda.", "Ha ocurrido un error!",
+						JOptionPane.WARNING_MESSAGE);
+				return;
+			}
 			
 			if(lista.getSelectedValuesList().size() > 0 && lista.getSelectedValuesList() != null) {
 				
@@ -206,7 +216,7 @@ import net.sourceforge.jdatepicker.impl.UtilDateModel;
 				
 				
 				try {
-					observacionesLista = ClienteGeoPosUy.buscarObservacionesPorFenomenos(listaIdsFenomenos);
+					observacionesLista = ClienteGeoPosUy.buscarObservacionesPorFenomenos(listaIdsFenomenos, fechaDesde, fechaHasta);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -220,7 +230,7 @@ import net.sourceforge.jdatepicker.impl.UtilDateModel;
 				
 				JOptionPane.showMessageDialog(frame, "Verifique haber seleccionado al menos un fenómeno.", "Ha ocurrido un error!",
 						JOptionPane.WARNING_MESSAGE);
-				
+				return;
 			}	
 		}
 	}
