@@ -193,8 +193,6 @@ public class FrameModificarFenomeno implements ActionListener {
 		//Controlo que el fenomeno no exista ya
 		
 		boolean existe = false;
-		System.out.println(fenom.getNombre());
-		System.out.println(fieldNombre);
 		boolean cambioNombre = !(fenom.getNombre().equalsIgnoreCase(fieldNombre));
 		
 		if (cambioNombre) {
