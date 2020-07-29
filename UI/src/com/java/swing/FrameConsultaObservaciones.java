@@ -201,6 +201,13 @@ package com.java.swing;
 				return;
 			}
 			
+			if (fechaDesde.after(fechaHasta)) {
+				
+				JOptionPane.showMessageDialog(frame, "La fecha desde no puede ser mayor a la fecha hasta", "Ha ocurrido un error!",
+						JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+			
 			if(lista.getSelectedValuesList().size() > 0 && lista.getSelectedValuesList() != null) {
 				
 				CapturarLista = (ArrayList<Fenomeno>) lista.getSelectedValuesList();
